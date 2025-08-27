@@ -1571,7 +1571,7 @@
   "tags": ["オリジナル（ソロ）"]
 },
 {
-  "title": "MIRROR",
+  "title": "【MV】MIRROR/長尾景【オリジナル曲】",
   "date": "2024-04-24",
   "songs": [
     { "title": "MIRROR", "artist": "長尾景" }
@@ -1992,6 +1992,15 @@
     { "title": "青のすみか", "artist": "キタニタツヤ" }
   ],
   "youtubeId": "OucDDzhTIpk",
+  "tags": ["カバー(ソロ)"]
+},
+{
+  "title": "美しい鰭【長尾景/にじさんじ】【歌ってみた】",
+  "date": "2024-07-29",
+  "songs": [
+    { "title": "美しい鰭", "artist": "スピッツ" }
+  ],
+  "youtubeId": "6SVBLdmD7NA",
   "tags": ["カバー(ソロ)"]
 },
 {
@@ -2666,5 +2675,6 @@
 }
 
 ]
+
 
 
