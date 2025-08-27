@@ -1,4 +1,28 @@
-[{
+[ {
+    "title": "【歌枠】バラード歌枠【長尾景/にじさんじ】",
+    "date": "2025-02-15",
+    "songs": [
+      { "title": "ドライフラワー", "artist": "優里", "start":409 },
+      { "title": "鬼ノ宴", "artist": "友成空", "start":952  },
+      { "title": "青のすみか", "artist": "キタニタツヤ", "start":1435  },
+      { "title": "カタオモイ", "artist": "Aimer", "start":2076 },
+      { "title": "カタオモイ", "artist": "Aimer", "start":2443  },
+      { "title": "カタオモイ", "artist": "Aimer", "start":2658  },
+      { "title": "シル・ヴ・プレジデント", "artist": "P丸様。", "start":3004  },
+       { "title": "魔法の絨毯", "artist": "川崎鷹也", "start":3425  }
+    ],
+    "youtubeId": "45hDZYg2lqA",
+    "tags": ["カバー(ソロ)"]
+  },
+  {
+    "title": "【歌枠】バラード歌枠【長尾景/にじさんじ】",
+    "date": "2025-02-15",
+    "songs": [{ "title": "MIRROR", "artist": "長尾景", "start":3780 }
+    ],
+    "youtubeId": "45hDZYg2lqA",
+    "tags": ["オリジナル（ソロ）"]
+  },
+    {
     "title": "【 #にじ漢歌祭り 】俺　が　主　催　枠【長尾景/にじさんじ】",
     "date": "2025-08-24",
     "songs": [
@@ -44,31 +68,7 @@
     "youtubeId": "dipDd1JZrAA",
     "tags": ["カバー(ソロ)"]
   },
-  {
-    "title": "【歌枠】バラード歌枠【長尾景/にじさんじ】",
-    "date": "2025-02-15",
-    "songs": [
-      { "title": "ドライフラワー", "artist": "優里", "start":409 },
-      { "title": "鬼ノ宴", "artist": "友成空", "start":952  },
-      { "title": "青のすみか", "artist": "キタニタツヤ", "start":1435  },
-      { "title": "カタオモイ", "artist": "Aimer", "start":2076 },
-      { "title": "カタオモイ", "artist": "Aimer", "start":2443  },
-      { "title": "カタオモイ", "artist": "Aimer", "start":2658  },
-      { "title": "シル・ヴ・プレジデント", "artist": "P丸様。", "start":3004  },
-       { "title": "魔法の絨毯", "artist": "川崎鷹也", "start":3425  }
-    ],
-    "youtubeId": "45hDZYg2lqA",
-    "tags": ["カバー(ソロ)"]
-  },
-  {
-    "title": "【歌枠】バラード歌枠【長尾景/にじさんじ】",
-    "date": "2025-02-15",
-    "songs": [{ "title": "MIRROR", "artist": "長尾景", "start":3780 }
-    ],
-    "youtubeId": "45hDZYg2lqA",
-    "tags": ["オリジナル（ソロ）"]
-  },
-  {
+ {
     "title": "【歌枠】ツアーに向けて調整中～～【長尾景/にじさんじ】",
     "date": "2024-07-03",
     "songs": [
@@ -2675,6 +2675,7 @@
 }
 
 ]
+
 
 
 
