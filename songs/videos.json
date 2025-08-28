@@ -1700,7 +1700,7 @@
   "title": "【歌ってみた】青と夏 covered by VΔLZ",
   "date": "2023-08-30",
   "songs": [
-    { "title": "青と夏", "artist": "Mrs.GREEN APPLE" }
+    { "title": "青と夏", "artist": "Mrs. GREEN APPLE" }
   ],
   "youtubeId": "Y-6QqF8lJNU",
   "tags": ["カバー(ユニット)"]
@@ -1980,7 +1980,7 @@
   "title": "Soranji【長尾景/にじさんじ】【歌ってみた】",
   "date": "2025-07-07",
   "songs": [
-    { "title": "Soranji", "artist": "Mrs.GREEN APPLE" }
+    { "title": "Soranji", "artist": "Mrs. GREEN APPLE" }
   ],
   "youtubeId": "wOhSXRttQEI",
   "tags": ["カバー(ソロ)"]
@@ -2016,7 +2016,7 @@
   "title": "【歌ってみた】ビターバカンス covered by #VΔLZ (弦月藤士郎/長尾景/甲斐田晴)",
   "date": "2025-08-15",
   "songs": [
-    { "title": "ビターバカンス ", "artist": "Mrs.GREEN APPLE" }
+    { "title": "ビターバカンス ", "artist": "Mrs. GREEN APPLE" }
   ],
   "youtubeId": "lj5eVA3WVw0",
   "tags": ["カバー(ユニット)"]
@@ -2675,6 +2675,7 @@
 }
 
 ]
+
 
 
 
