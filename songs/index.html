@@ -309,43 +309,81 @@
 
     // ===== データ整形 =====
     function normalizeVideos(videos){
-      const map = new Map();
-      for(const raw of videos){
-        const v = {...raw};
-        const id = v.youtubeId;
-        const songs = (v.songs || v.setlist || []).map(s=>({
-          title: s.title || s.song || '',
-          artist: s.artist || s.singer || '（不明）',
-          start: toSeconds(s.start ?? s.time ?? s.begin ?? 0)
-        }));
-        const tags = Array.isArray(v.tags) ? v.tags.filter(Boolean) : [];
-        if(!map.has(id)){
-          map.set(id, { title: v.title||'', date: v.date||'', channel: v.channel||'', youtubeId: id||'', songs: [], tags: [] });
-        }
-        const bucket = map.get(id);
-        for(const s of songs){ const key = `${s.title}__${s.artist}__${s.start}`; if(!bucket.songs.some(t => `${t.title}__${t.artist}__${t.start}`===key)) bucket.songs.push(s); }
-        bucket.tags = Array.from(new Set([...(bucket.tags||[]), ...tags]));
-      }
-      for(const v of map.values()){ v.songs.sort((a,b)=> a.start - b.start); }
-      return [...map.values()];
+  const map = new Map();
+  for(const raw of videos){
+    const v = {...raw};
+    const id = v.youtubeId;
+
+    // 動画レベルのタグ（配列化）
+    const videoTags = Array.isArray(v.tags) ? v.tags.filter(Boolean) : [];
+
+    // ★ 曲にも tags を持たせる。無ければ videoTags を継承
+    const songs = (v.songs || v.setlist || []).map(s => ({
+      title:  s.title  || s.song   || '',
+      artist: s.artist || s.singer || '（不明）',
+      start:  toSeconds(s.start ?? s.time ?? s.begin ?? 0),
+      tags:   Array.isArray(s.tags) ? s.tags.filter(Boolean) : videoTags
+    }));
+
+    if(!map.has(id)){
+      map.set(id, {
+        title: v.title||'',
+        date: v.date||'',
+        channel: v.channel||'',
+        youtubeId: id||'',
+        songs: [],
+        tags: videoTags.slice() // videoレベルのタグも保持
+      });
     }
+    const bucket = map.get(id);
+
+    // 曲の重複排除
+    for(const s of songs){
+      const key = `${s.title}__${s.artist}__${s.start}`;
+      if(!bucket.songs.some(t => `${t.title}__${t.artist}__${t.start}`===key)){
+        bucket.songs.push(s);
+      }
+    }
+  }
+  for(const v of map.values()){ v.songs.sort((a,b)=> a.start - b.start); }
+  return [...map.values()];
+}
+
 
     let ALL_ROWS=[]; let VIDEO_MAP=new Map(); let ALL_TAGS=[]; const SELECTED_TAGS=new Set();
     function buildRows(videos){
-      const merged = normalizeVideos(videos);
-      VIDEO_MAP = new Map(merged.map(v => [v.youtubeId, v]));
-      ALL_ROWS = [];
-      for(const v of merged){
-        for(const s of v.songs){
-          ALL_ROWS.push({ song:s.title, artist:s.artist, date:v.date, videoTitle:v.title, youtubeId:v.youtubeId, start:s.start, tags:v.tags||[], tagsText:(v.tags||[]).join(' ') });
-        }
-      }
-      ALL_ROWS.sort((a,b)=>{ if(a.date!==b.date) return a.date<b.date?1:-1; const s=a.song.localeCompare(b.song,'ja'); if(s) return s; return a.artist.localeCompare(b.artist,'ja'); });
-      // ユニークなタグ一覧を作成
-      ALL_TAGS = Array.from(new Set(merged.flatMap(v => v.tags||[]))).sort((a,b)=>a.localeCompare(b,'ja'));
-      renderFilterTags();
-    }
+  const merged = normalizeVideos(videos);
+  VIDEO_MAP = new Map(merged.map(v => [v.youtubeId, v]));
+  ALL_ROWS = [];
 
+  for(const v of merged){
+    for(const s of v.songs){
+      ALL_ROWS.push({
+        song: s.title,
+        artist: s.artist,
+        date: v.date,
+        videoTitle: v.title,
+        youtubeId: v.youtubeId,
+        start: s.start,
+        // ★ 曲タグを行に入れる
+        tags: s.tags || [],
+        tagsText: (s.tags || []).join(' ')
+      });
+    }
+  }
+// ★ タグ一覧は行（曲）から作る
+  ALL_ROWS.sort((a,b)=>{
+    if(a.date!==b.date) return a.date<b.date?1:-1;
+    const s=a.song.localeCompare(b.song,'ja'); if(s) return s;
+    return a.artist.localeCompare(b.artist,'ja');
+  });
+
+  // ★ タグ一覧は行（曲）から作る
+  ALL_TAGS = Array.from(new Set(ALL_ROWS.flatMap(r => r.tags || [])))
+            .sort((a,b)=>a.localeCompare(b,'ja'));
+
+  renderFilterTags();
+}
     // ===== タグフィルタ UI =====
     function renderFilterTags(){
       $filterTags.innerHTML='';
@@ -383,9 +421,17 @@
         div.querySelector('.song').addEventListener('click', ()=> fillSearch(r.song));
         div.querySelector('.artist').addEventListener('click', ()=> fillSearch(r.artist));
         // 行タグ（タップで検索欄に入れる）
+        // 行タグ（タップで検索欄に入れる
         const rowTagBox = div.querySelector('.tags-row');
-        const tags = (VIDEO_MAP.get(r.youtubeId)?.tags)||r.tags||[];
-        tags.forEach(t=>{ const b=document.createElement('button'); b.className='tag-badge'; b.type='button'; b.textContent=t; b.addEventListener('click', ()=> fillSearch(t)); rowTagBox.appendChild(b); });
+　　　　// ★ r.tags（曲）を最優先。無ければ動画タグにフォールバック
+        const tags = (r.tags && r.tags.length) ? r.tags : (VIDEO_MAP.get(r.youtubeId)?.tags || []);
+        tags.forEach(t=>{
+  　　　const b=document.createElement('button');
+          b.className='tag-badge'; b.type='button'; b.textContent=t;
+          b.addEventListener('click', ()=> fillSearch(t));
+          rowTagBox.appendChild(b)
+        });
+
         // 再生
         div.querySelector('.videotitle button').addEventListener('click', e=>{
           const id=e.currentTarget.dataset.id; const start=e.currentTarget.dataset.start; const title=e.currentTarget.dataset.title; const date=e.currentTarget.dataset.date; const video=VIDEO_MAP.get(id)||{songs:[],tags:[]};
@@ -671,6 +717,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
