@@ -432,31 +432,44 @@
       });
       renderRows(rows);
     }
+fetch('videos.json')
+  .then(r => r.json())
+  .then(videos => {
+    // ここで動画タグを各曲に継承（曲にすでに tags があればそれを優先）
+    const videosWithSongTags = videos.map(v => ({
+      ...v,
+      songs: (v.songs || []).map(s => ({
+        ...s,
+        // 配列ならそのまま、未定義なら v.tags を継承、null/空は []
+        tags: Array.isArray(s.tags) ? s.tags
+             : (Array.isArray(v.tags) ? v.tags : [])
+      }))
+    }));
 
-    
-
-    fetch('videos.json')
-      .then(r => r.json())
-      .then(videos => {
-        videos.forEach(v => {
-      (v.songs || []).forEach(s => {
-        s.tags = Array.isArray(s.tags) ? s.tags : (v.tags || []);
-      });
-    });
-
-        buildRows(videos);
-        renderRows(ALL_ROWS);
+    // ついでに全角カッコの表記ゆれを吸収したい場合（任意）
+    videosWithSongTags.forEach(v =>
+      (v.songs||[]).forEach(s => {
+        s.tags = (s.tags||[]).map(t => t.replace(/（/g,'(').replace(/）/g,')'));
       })
-      .catch(err => {
-        console.error(err);
-        $empty.style.display = 'block';
-        $empty.textContent = 'videos.json の読み込みに失敗しました。コンソールをご確認ください。';
-      });
+    );
 
-$q.addEventListener('keydown', e => { if(e.key==='Enter') applyFilter(); });
+    // いつもの処理へ
+    buildRows(videosWithSongTags);
+    renderRows(ALL_ROWS);
+  })
+  .catch(err => {
+    console.error(err);
+    $empty.style.display='block';
+    $empty.textContent='videos.json の読み込みに失敗しました。コンソールをご確認ください。';
+  });
+
+$q.addEventListener('keydown', e=>{ if(e.key==='Enter') applyFilter(); });
 $q.addEventListener('search', applyFilter);
 $q.addEventListener('input', applyFilter);
 
+    
+
+  
     // ===== detawane風：スクロールしたときだけモバイルで浮動化 =====
 (function(){
   const mq = window.matchMedia('(max-width: 900px)');
@@ -658,6 +671,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
