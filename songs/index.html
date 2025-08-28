@@ -436,23 +436,22 @@
     
 
     fetch('videos.json')
-  .then(r => r.json())
-  .then(videos => {
-    // ★ ここで動画タグを曲に継承させる
-    videos.forEach(v => {
+      .then(r => r.json())
+      .then(videos => {
+        videos.forEach(v => {
       (v.songs || []).forEach(s => {
         s.tags = Array.isArray(s.tags) ? s.tags : (v.tags || []);
       });
     });
 
-    buildRows(videos);
-    renderRows(ALL_ROWS);
-  })
-  .catch(err => {
-    console.error(err);
-    $empty.style.display = 'block';
-    $empty.textContent = 'videos.json の読み込みに失敗しました。コンソールをご確認ください。';
-  });
+        buildRows(videos);
+        renderRows(ALL_ROWS);
+      })
+      .catch(err => {
+        console.error(err);
+        $empty.style.display = 'block';
+        $empty.textContent = 'videos.json の読み込みに失敗しました。コンソールをご確認ください。';
+      });
 
 $q.addEventListener('keydown', e => { if(e.key==='Enter') applyFilter(); });
 $q.addEventListener('search', applyFilter);
@@ -659,6 +658,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
