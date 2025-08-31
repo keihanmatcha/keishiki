@@ -2142,6 +2142,15 @@
   "tags": ["カバー(ソロ)"]
 },
 {
+  "title": "【歌ってみた】secret base 〜君がくれたもの〜 covered by #VΔLZ",
+  "date": "2025-08-29",
+  "songs": [
+    { "title": "secret base~君がくれたもの~", "artist": "ZONE" }
+  ],
+  "youtubeId": "SJL7vV8ZaIk",
+  "tags": ["カバー(ユニット)"]
+},
+{
   "title": "【歌ってみた】真夏の果実 covered by #VΔLZ (長尾景)",
   "date": "2025-08-15",
   "songs": [
@@ -2157,6 +2166,15 @@
     { "title": "ビターバカンス ", "artist": "Mrs. GREEN APPLE" }
   ],
   "youtubeId": "lj5eVA3WVw0",
+  "tags": ["カバー(ユニット)"]
+},
+{
+  "title": "【歌ってみた】ココロオドル covered by #VΔLZ (弦月藤士郎/長尾景/甲斐田晴)",
+  "date": "2025-08-14",
+  "songs": [
+    { "title": "ココロオドル", "artist": "nobodyknows+" }
+  ],
+  "youtubeId": "6Mg9KPS7wqo",
   "tags": ["カバー(ユニット)"]
 },
 {
@@ -2813,6 +2831,7 @@
 }
 
 ]
+
 
 
 
