@@ -1516,11 +1516,19 @@
   "title": "【ライブ本編】にじさんじ WORLD TOUR 2025 Singin’ in the Rainbow！名古屋公演 / 無料パート #SitR名古屋",
   "date": "2025-06-22",
   "songs": [
-    { "title": "Arc goes oN", "artist": "にじさんじ", "start":1890 },
-    { "title": "maindishが足りてない", "artist": "宮守文学", "start":2165 }
+    { "title": "Arc goes oN", "artist": "にじさんじ", "start":1890 }
   ],
   "youtubeId": "uMN9Xt5NdWg",
   "tags": ["オリジナル(ユニット)"]
+},
+{
+  "title": "【ライブ本編】にじさんじ WORLD TOUR 2025 Singin’ in the Rainbow！名古屋公演 / 無料パート #SitR名古屋",
+  "date": "2025-06-22",
+  "songs": [
+    { "title": "maindishが足りてない", "artist": "宮守文学", "start":2165 }
+  ],
+  "youtubeId": "uMN9Xt5NdWg",
+  "tags": ["カバー(ユニット)"]
 },
 
 
@@ -1852,6 +1860,33 @@
   ],
   "youtubeId": "ldmp36kYzB8",
   "tags": ["カバー(ユニット)"]
+},
+{
+  "title": "にじさんじユニット歌謡祭2022 無料パート総集編【叶/神田笑一/ベルモンド・バンでラス】",
+  "date": "2023-01-22",
+  "songs": [
+    { "title": "Original instrument", "artist": "Southern,xxx/サザンクロス", "start":3352 }
+  ],
+  "youtubeId": "SjuAIIe0Op0",
+  "tags": ["カバー(ユニット)"]
+},
+{
+  "title": "にじさんじユニット歌謡祭2022 無料パート総集編【叶/神田笑一/ベルモンド・バンでラス】",
+  "date": "2023-01-22",
+  "songs": [
+        { "title": "Plus 1 Good Day!", "artist": "FRAME【THE IDOLM@STER SideM】", "start":3446 }
+  ],
+  "youtubeId": "SjuAIIe0Op0",
+  "tags": ["オリジナル(ユニット)"]
+},
+{
+  "title": "にじさんじユニット歌謡祭2022 無料パート総集編",
+  "date": "2023-01-22",
+  "songs": [
+       { "title": "ミックスナッツ", "artist": "Official髭男dism", "start":7416 }
+  ],
+  "youtubeId": "SjuAIIe0Op0",
+  "tags": ["オリジナル(ユニット)"]
 },
 {
   "title": "【歌ってみた】ボッカデラベリタ / 柊キライ【長尾景cover】【にじさんじ】",
@@ -2760,6 +2795,7 @@
 }
 
 ]
+
 
 
 
