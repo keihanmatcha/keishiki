@@ -1335,6 +1335,42 @@
     "youtubeId": "EBytyBktfD0",
     "tags": ["カバー(ユニット)"]
   },
+ {
+    "title": "【＃弦月藤士郎3D】桜魔の国よりお披露目しますか。【弦月藤士郎/にじさんじ】",
+    "date": "2022-05-13",
+    "songs": [
+      { "title": "浮世の演舞", "artist": "VΔLZ", "start":641 }
+    ],
+    "youtubeId": "EBytyBktfD0",
+    "tags": ["オリジナル(ユニット)"]
+  },
+  {
+    "title": "【＃コハック 3D】東堂堂々、3Dお披露目ちゅう～【にじさんじ／東堂コハク】",
+    "date": "2022-12-23",
+    "songs": [
+      { "title": "エゴロック", "artist": "すりぃ", "start":2008 }
+    ],
+    "youtubeId": "OgwDeoMud0k",
+    "tags": ["カバー(ユニット)"]
+  },
+ {
+    "title": "【3D LIVE】 BIRTHDAY LIVE SPACE TRAVEL 【にじさんじ／桜凛月】",
+    "date": "2023-04-01",
+    "songs": [
+      { "title": "虎視眈々", "artist": "梅とら", "start":641 }
+    ],
+    "youtubeId": "EUIBpgViz7U",
+    "tags": ["カバー(ユニット)"]
+  },
+ {
+    "title": "【＃セラフ 3D】新たなスタート。あなたが居たから。【にじさんじ/VOLTACTION】",
+    "date": "2023-05-19",
+    "songs": [
+      { "title": "ミライ", "artist": "有機酸", "start":2239 }
+    ],
+    "youtubeId": "EBytyBktfD0",
+    "tags": ["カバー(ユニット)"]
+  },
    {
     "title": "【#秋ロックカラオケ】DAY.1🎤【にじさんじ/鷹宮リオン 長尾景 ルンルン 轟京子 レヴィ・エリファ】",
     "date": "2024-11-28",
@@ -2724,6 +2760,7 @@
 }
 
 ]
+
 
 
 
