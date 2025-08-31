@@ -1615,7 +1615,16 @@
   "songs": [
     { "title": "黎明の轍", "artist": "VΔLZ" }
   ],
-  "youtubeId": "cceaAU2ErBbbd6Hd",
+  "youtubeId": "ixl0scGanGU",
+  "tags": ["オリジナル(ユニット)"]
+},
+{
+  "title": "VΔLZ×DRAMATIC STARS COLLABORATION SONG『Amazing Moment』",
+  "date": "2024-07-21",
+  "songs": [
+    { "title": "Amazing Moment", "artist": "DRAMATIC STARS【SideM】" }
+  ],
+  "youtubeId": "IsUsPZXHRfk",
   "tags": ["オリジナル(ユニット)"]
 },
  {
@@ -1624,7 +1633,16 @@
   "songs": [
     { "title": "SHOOTING DELTA", "artist": "VΔLZ" }
   ],
-  "youtubeId": "8OAa-GBwNwmkZfFg",
+  "youtubeId": "nnP-GeBoj6E",
+  "tags": ["オリジナル(ユニット)"]
+},
+{
+  "title": "【ライブ本編】にじさんじフェス2023 前夜祭/ 無料パート",
+  "date": "2023-12-22",
+  "songs": [
+    { "title": "SHOOTING DELTA", "artist": "VΔLZ" }
+  ],
+  "youtubeId": "BqX-jwptb5k",
   "tags": ["オリジナル(ユニット)"]
 },
  {
@@ -1633,7 +1651,7 @@
   "songs": [
     { "title": "No Reason.", "artist": "VΔLZ" }
   ],
-  "youtubeId": "si=oeF19LURuFUwpdIv",
+  "youtubeId": "TKG9lqZ6fHk",
   "tags": ["オリジナル(ユニット)"]
 },
  {
@@ -1642,7 +1660,7 @@
   "songs": [
     { "title": "浮世の演舞", "artist": "VΔLZ" }
   ],
-  "youtubeId": "0zuTL3w1oRk39PSq",
+  "youtubeId": "YhHoxoycFg8",
   "tags": ["オリジナル(ユニット)"]
 },
 {
@@ -1669,7 +1687,7 @@
   "songs": [
     { "title": "MIRROR", "artist": "長尾景" }
   ],
-  "youtubeId": "e1XbZsSJFC1q0HHS",
+  "youtubeId": "7LYGF4Np8YQ",
   "tags": ["オリジナル（ソロ）"]
 },
 
@@ -1679,7 +1697,7 @@
   "songs": [
     { "title": "シュガーソングとビターステップ", "artist": "UNISON SQUARE GARDEN" }
   ],
-  "youtubeId": "",
+  "youtubeId": "4UnZzeDVkHQ",
   "tags": ["カバー(ユニット)"]
 },
 {
@@ -2795,6 +2813,7 @@
 }
 
 ]
+
 
 
 
