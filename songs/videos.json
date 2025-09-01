@@ -1337,7 +1337,7 @@
   },
  {
     "title": "Hurrah!! (Shu Yamino 3D Debut Version)",
-    "date": "2024/07/20",
+    "date": "2024-07-20",
     "songs": [
       { "title": "Hurrah!!", "artist": "にじさんじ" }
     ],
@@ -1346,7 +1346,7 @@
   },
 {
     "title": "Welcome to my Dimension #ShuYamino3D",
-    "date": "2024/07/13",
+    "date": "2024-07-13",
     "songs": [
       { "title": "Hurrah!!", "artist": "にじさんじ", "start":3197 }
     ],
@@ -2860,6 +2860,7 @@
 }
 
 ]
+
 
 
 
