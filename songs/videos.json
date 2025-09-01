@@ -1336,7 +1336,7 @@
     "tags": ["カバー(ユニット)"]
   },
  {
-    "title": "Hurrah!! (Shu Yamino 3D Debut Version)"
+    "title": "Hurrah!! (Shu Yamino 3D Debut Version)",
     "date": "2024-07-20",
     "songs": [
       { "title": "Hurrah!!", "artist": "にじさんじ" }
@@ -1871,7 +1871,7 @@
   "tags": ["カバー(ユニット)"]
 },
 {
-  "title": "にじさんじユニット歌謡祭2022 無料パート総集編【叶/神田笑一/ベルモンド・バンでラス】",
+  "title": "にじさんじユニット歌謡祭2022 無料パート総集編",
   "date": "2023-01-22",
   "songs": [
     { "title": "Original instrument", "artist": "Southern,xxx/サザンクロス", "start":3352 }
@@ -1880,7 +1880,7 @@
   "tags": ["オリジナル(ユニット)"]
 },
 {
-  "title": "にじさんじユニット歌謡祭2022 無料パート総集編【叶/神田笑一/ベルモンド・バンでラス】",
+  "title": "にじさんじユニット歌謡祭2022 無料パート総集編",
   "date": "2023-01-22",
   "songs": [
         { "title": "Plus 1 Good Day!", "artist": "FRAME【THE IDOLM@STER SideM】", "start":3446 }
@@ -1907,7 +1907,7 @@
   "tags": ["オリジナル(ユニット)"]
 },
 {
-  "title": "にじさんじユニット歌謡祭2022 無料パート総集編"
+  "title": "にじさんじユニット歌謡祭2022 無料パート総集編",
   "date": "2023-01-22",
   "songs": [
        { "title": "Virtual to LIVE", "artist": "にじさんじ", "start":9287 }
@@ -2860,6 +2860,7 @@
 }
 
 ]
+
 
 
 
