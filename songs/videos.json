@@ -1917,9 +1917,9 @@
 },
 {
   "title": "【#NIJIMelodyTime】 Virtual to LIVE 【にじさんじ国際歌リレー企画】",
-  "date": "2022/08/27",
+  "date": "2022-08-27",
   "songs": [
-       { "title": "Virtual to LIVE", "artist": "にじさんじ", "start":7416 }
+       { "title": "Virtual to LIVE", "artist": "にじさんじ"}
   ],
   "youtubeId": "B_FSf9q8Teo",
   "tags": ["オリジナル(ユニット)"]
@@ -2860,6 +2860,7 @@
 }
 
 ]
+
 
 
 
