@@ -418,8 +418,8 @@
             <div class="ellipsis"><button type="button" data-id="${r.youtubeId}" data-start="${r.start}" data-title="${r.videoTitle.replace(/"/g,'&quot;')}" data-date="${r.date}">${r.videoTitle}</button></div>
             <div class="tags-row"></div>
           </div>`;
-        div.querySelector('.song').addEventListener('click', ()=> fillSearch(r.song));
-        div.querySelector('.artist').addEventListener('click', ()=> fillSearch(r.artist));
+        div.querySelector('.song').addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(r.song); });
+        div.querySelector('.artist').addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(r.artist); });
         // 行タグ（タップで検索欄に入れる）
         // 行タグ（タップで検索欄に入れる
         const rowTagBox = div.querySelector('.tags-row');
@@ -428,10 +428,15 @@
         tags.forEach(t=>{
   　　　const b=document.createElement('button');
           b.className='tag-badge'; b.type='button'; b.textContent=t;
-          b.addEventListener('click', ()=> fillSearch(t));
+          b.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(t); });
           rowTagBox.appendChild(b)
         });
-
+        // 行全体クリックで動画再生（ただし曲名・アーティスト・タグは除外済み）
+        div.addEventListener('click', ()=> {
+          const id = r.youtubeId;
+          const start = r.start;
+          loadVideo(id, start); // ← 既存の再生処理に合わせてください
+        });
         // 再生
         div.querySelector('.videotitle button').addEventListener('click', e=>{
           const id=e.currentTarget.dataset.id; const start=e.currentTarget.dataset.start; const title=e.currentTarget.dataset.title; const date=e.currentTarget.dataset.date; const video=VIDEO_MAP.get(id)||{songs:[],tags:[]};
@@ -717,6 +722,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
