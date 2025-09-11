@@ -1943,7 +1943,16 @@
   "youtubeId": "2MwF6ou6TT8",
   "tags": ["オリジナル(ユニット)"]
 },
-
+{
+  "title": "気分上々↑↑ - mihimaru GT / セフィナ 長尾景 セラフ・ダズルガーデン COVER",
+  "date": "2025-09-10",
+  "songs": [
+        { "title": "気分上々↑↑", "artist": "mihimaru GT"}
+  ],
+  "youtubeId": "aqCCTInb0YE",
+  "tags": ["カバー(ユニット)"]
+},
+    
 
 {
   "title": "【歌ってみた】ボッカデラベリタ / 柊キライ【長尾景cover】【にじさんじ】",
@@ -2180,7 +2189,6 @@
   "youtubeId": "6SVBLdmD7NA",
   "tags": ["カバー(ソロ)"]
 },
-
 {
   "title": "ただ君に晴れ/ヨルシカ【長尾景/にじさんじ】【歌ってみた】",
   "date": "2025-09-05",
@@ -2191,8 +2199,17 @@
   "tags": ["カバー(ソロ)"]
 },
 {
+  "title": "インフェルノ/Mrs. GREEN APPLE【長尾景/にじさんじ】【歌ってみた】",
+  "date": "2025-09-09",
+  "songs": [
+    { "title": "インフェルノ", "artist": "Mrs. GREEN APPLE" }
+  ],
+  "youtubeId": "aoe9DwQ8578",
+  "tags": ["カバー(ソロ)"]
+},
+{
   "title": "【歌ってみた】secret base 〜君がくれたもの〜 covered by #VΔLZ",
-  "date": "2025-08-29",
+  "date": "2025-09-05",
   "songs": [
     { "title": "secret base~君がくれたもの~", "artist": "ZONE" }
   ],
@@ -2880,6 +2897,7 @@
 }
 
 ]
+
 
 
 
