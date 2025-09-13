@@ -199,6 +199,26 @@
     }
   .list-col{grid-area:list}
     .player-col{grid-area:player}
+  /* お気に入りボタンのスタイル */
+.favorite-btn {
+  /* ボタンのデフォルトスタイルをすべてリセット */
+  all: unset;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px; /* 曲名からの間隔 */
+}
+
+.star-icon {
+  font-size: 20px;
+  color: #ccc; /* 通常時の灰色 */
+  transition: color 0.2s ease;
+}
+
+/* お気に入り登録時のスタイル */
+.favorite-btn.is-favorited .star-icon {
+  color: #FFD700; /* 登録後の金色 */
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
   </style>
 </head>
 <body>
@@ -400,6 +420,19 @@
     }
     $clearTags.addEventListener('click', ()=>{ SELECTED_TAGS.clear(); renderFilterTags(); applyFilter(); });
 
+  const FAVORITES_KEY = 'oukasui_favorites';
+
+// お気に入りリストをlocalStorageから取得
+function getFavorites() {
+  const favorites = localStorage.getItem(FAVORITES_KEY);
+  return favorites ? JSON.parse(favorites) : [];
+}
+
+// お気に入りリストをlocalStorageに保存
+function saveFavorites(favorites) {
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+}
+  
     // ===== リスト描画 =====
   function renderRows(rows){
   $list.innerHTML='';
@@ -433,16 +466,20 @@
   for(const r of rows){
     const div = document.createElement('div');
     div.className = 'row';
+    // renderRows関数内のdiv.innerHTMLを以下のように修正
     div.innerHTML = `
-      <div class="songcell">
-        <div class="songtitle ellipsis">
-          <span class="note">🎵</span>
-          <span class="song link">${r.song}</span>
-        </div>
-        <div class="artist ellipsis"><span class="artist link">${r.artist||''}</span></div>
-      </div>
-      <div class="date">${ymdToDots(r.date)}</div>
-      <div class="videotitle">
+    <div class="songcell" data-song-key="${r.youtubeId}-${r.start}">
+    <div class="songtitle ellipsis">
+      <span class="note">🎵</span>
+      <span class="song link">${r.song}</span>
+      <button class="favorite-btn" aria-label="お気に入りに追加/削除">
+        <span class="star-icon">☆</span>
+      </button>
+    </div>
+    <div class="artist ellipsis"><span class="artist link">${r.artist||''}</span></div>
+    </div>
+    <div class="date">${ymdToDots(r.date)}</div>
+    <div class="videotitle">
         <div class="ellipsis">
           <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}">
             ${r.videoTitle}
@@ -759,6 +796,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
