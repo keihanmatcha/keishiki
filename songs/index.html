@@ -465,6 +465,36 @@ function saveFavorites(favorites) {
 
   for(const r of rows){
     const div = document.createElement('div');
+    // renderRows内のforループの中に追加するコード
+
+// お気に入りボタンと曲のキーを取得
+const favBtn = div.querySelector('.favorite-btn');
+const songKey = div.querySelector('.songcell').dataset.songKey;
+
+// ページ読み込み時、すでにお気に入り登録されているか確認
+if (getFavorites().includes(songKey)) {
+  favBtn.classList.add('is-favorited');
+}
+
+// ボタンのクリックイベントを追加
+favBtn.addEventListener('click', (e) => {
+  e.stopPropagation(); // 行全体のクリックイベントが発火しないようにする
+  
+  const currentFavorites = getFavorites();
+  const index = currentFavorites.indexOf(songKey);
+  
+  if (index > -1) {
+    // お気に入りに含まれていれば削除
+    currentFavorites.splice(index, 1);
+    favBtn.classList.remove('is-favorited');
+  } else {
+    // お気に入りに含まれていなければ追加
+    currentFavorites.push(songKey);
+    favBtn.classList.add('is-favorited');
+  }
+  
+  saveFavorites(currentFavorites);
+});
     div.className = 'row';
     // renderRows関数内のdiv.innerHTMLを以下のように修正
     div.innerHTML = `
@@ -796,6 +826,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
