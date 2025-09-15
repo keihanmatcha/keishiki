@@ -467,9 +467,8 @@ function saveFavorites(favorites) {
   localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
 }
   
-    // ===== リスト描画 =====
 // ===== リスト描画 =====
-// ===== リスト描画 =====
+
 function renderRows(rows){
   $list.innerHTML='';
   if(!rows.length){ $empty.style.display='block'; return; }
@@ -839,6 +838,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
