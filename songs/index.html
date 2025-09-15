@@ -511,7 +511,6 @@ for(const r of rows){
       currentFavorites.push(songKey);
       favBtn.classList.add('is-favorited');
     }
-    
     saveFavorites(currentFavorites);
   });
   
@@ -521,8 +520,7 @@ for(const r of rows){
     const artistEl = div.querySelector('.artist');
     songEl.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(r.song); });
     artistEl.addEventListener('click', (e)=>{ e.stopPropagation(); if(r.artist) fillSearch(r.artist); });
-     $list.appendChild(div);
-}
+
 
 
     // --- タグは「検索」：行クリックを止める ---
@@ -827,6 +825,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
