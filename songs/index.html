@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>曲リスト（videos.json 参照 / サイドプレイヤー＋セットリスト＋タグ複数フィルタ）</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>曲リスト（videos.json 参照 / サイドプレイヤー＋セットリスト＋タグ複数フィルタ）</title>
+<!-- Favicon 基本設定 -->
 <link rel="icon" href="/images/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/images/Nagao-icon.png" sizes="512x512">
 <link rel="apple-touch-icon" href="/images/Nagao-icon.png">
@@ -23,842 +24,561 @@
 <meta name="twitter:description" content="長尾景の曲データベースを曲名・アーティスト名・タグで検索できます。">
 <meta name="twitter:image" content="https://oukasui.com/images/ogp.png">
 
- <style>
-  :root {
-    --fg: #222;
-    --muted: #6b7280;
-    --accent: #625DA1;
-    --bg: #fff;
-    --border: #e5e7eb;
-    --panel: #f8f8ff;
-  }
-  html, body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-  }
-  header {
-    position: sticky;
-    top: 0;
-    background: #fffcc;
-    backdrop-filter: saturate(1.2) blur(6px);
-    border-bottom: 1px solid var(--border);
-  }
-  .wrap {
-    max-width: 1200px;
-    margin-inline: auto;
-    padding: 14px 16px;
-  }
-  h1 {
-    margin: 0 0 8px;
-    font-size: 20px;
-  }
-  .toolbar {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .searchbar {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex: 1;
-  }
-  .searchbar input {
-    flex: 1;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-size: 16px;
-  }
-  /* タグフィルタ（グローバル） */
-  .filterbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-  }
-  .filterbar .label {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .filter-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .chip-tag {
-    font-size: 12px;
-    line-height: 1;
-    padding: 8px 12px;
-    border: 1px solid #e5dfff;
-    border-radius: 999px;
-    background: #f0ecff;
-    color: #5b55a5;
-    cursor: pointer;
-  }
-  .chip-tag:hover {
-    filter: brightness(0.97);
-  }
-  .chip-tag.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
-  .chip-clear {
-    font-size: 12px;
-    padding: 6px 10px;
-    border: 1px dashed var(--border);
-    border-radius: 999px;
-    background: #fff;
-    color: #6b7280;
-    cursor: pointer;
-  }
-  .chip-clear:hover {
-    border-color: #c1c5e8;
-    color: #4b5563;
-  }
-  /* 2カラム */
-  .grid {
-    display: grid;
-    gap: 16px;
-    align-items: start;
-    grid-template-columns: 1.2fr 0.8fr;
-    grid-template-areas: "list player";
-  }
-  .grid.player-left {
-    grid-template-columns: 0.8fr 1.2fr;
-    grid-template-areas: "player list";
-  }
-  @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: 1fr;
-      grid-template-areas: "player" "list";
+  <style>
+    :root{ --fg:#222; --muted:#6b7280; --accent:#625DA1; --bg:#fff; --border:#e5e7eb; --panel:#f8f8ff; }
+    html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
+
+    header{position:sticky;top:0;background:#fffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1200px;margin-inline:auto;padding:14px 16px}
+    h1{margin:0 0 8px;font-size:20px}
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .searchbar{display:flex;gap:10px;align-items:center;flex:1}
+    .searchbar input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:16px}
+
+    /* タグフィルタ（グローバル） */
+    .filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .filterbar .label{font-size:12px;color:var(--muted)}
+    .filter-tags{display:flex;gap:8px;flex-wrap:wrap}
+    .chip-tag{font-size:12px;line-height:1;padding:8px 12px;border:1px solid #e5dfff;border-radius:999px;background:#f0ecff;color:#5b55a5;cursor:pointer}
+    .chip-tag:hover{filter:brightness(0.97)}
+    .chip-tag.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .chip-clear{font-size:12px;padding:6px 10px;border:1px dashed var(--border);border-radius:999px;background:#fff;color:#6b7280;cursor:pointer}
+    .chip-clear:hover{border-color:#c1c5e8;color:#4b5563}
+
+    /* 2カラム */
+    .grid{display:grid;gap:16px;align-items:start;grid-template-columns:1.2fr .8fr;grid-template-areas:"list player"}
+    .grid.player-left{grid-template-columns:.8fr 1.2fr;grid-template-areas:"player list"}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr;grid-template-areas:"player" "list"} }
+
+    /* 行リスト */
+    .list{border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
+    .row:nth-child(odd){background:#f6f6fb}
+    .row:first-child{border-top:none}
+    .songcell{display:flex;flex-direction:column}
+    .songtitle{font-weight:600;display:flex;gap:8px;align-items:center}
+    .songtitle .note{font-size:18px}
+    .artist{font-size:12px;color:var(--muted)}
+    .link{all:unset; cursor:pointer; color:inherit}
+    .link:hover{color:var(--accent); text-decoration:underline}
+    .link.artist{color:var(--muted)}
+    .date{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:#374151;justify-self:end;text-align:right;width:120px}
+    .videotitle{display:flex;flex-direction:column;gap:6px}
+    .videotitle button{all:unset;cursor:pointer;color:#111}
+    .videotitle button:hover{color:var(--accent);text-decoration:underline}
+    .ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tags-row{display:flex;gap:6px;flex-wrap:wrap}
+    .tag{font-size:11px;line-height:1;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#374151;cursor:pointer}
+    .tag:hover{border-color:var(--accent);color:var(--accent)}
+    /* 動画タイトルブロック：タイトルとタグの距離を空ける */
+.videotitle{
+  display:flex; flex-direction:column; gap:8px;
+}
+
+/* タグ行を“行”として明確化（左に薄いラベル、行全体の余白） */
+.tags-row{
+  display:flex; flex-wrap:wrap; gap:8px;
+  align-items:center;
+  margin-top:2px;               /* タイトルとの距離を少しだけ */
+  padding-top:6px;              /* タグ行の上に呼吸 */
+  border-top:1px dashed var(--border);  /* タイトルとタグを区切る */
+}
+
+/* タグ行のラベル（装飾）。必要なければコメントアウト可 */
+.tags-row::before{
+  content:"タグ";
+  font-size:11px; color:var(--muted);
+  margin-right:4px; padding:2px 6px;
+  border:1px solid var(--border);
+  border-radius:999px; background:#fff;
+}
+
+/* タグの“ピル”スタイル */
+.tag-badge{
+  appearance:none; border:0; cursor:pointer;
+  font-size:12px; line-height:1;
+  padding:8px 12px; border-radius:999px;
+  background:#f2efff;           /* 薄い紫の塗り */
+  color:#4c46a6;                 /* 文字色 */
+  border:1px solid #e5dfff;      /* 枠はさらに淡い紫 */
+  display:inline-flex; gap:6px; align-items:center;
+}
+
+/* ハッシュ # アイコン（疑似要素で付ける） */
+.tag-badge::before{
+  content:"#";
+  font-weight:700; opacity:.6;
+}
+
+/* ホバー & アクティブ */
+.tag-badge:hover{ filter:brightness(.97) }
+.tag-badge:active{ transform: translateY(1px) }
+
+/* “選択中”を強めに見せたい場合（任意でJSから .active を付ける想定） */
+.tag-badge.active{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:#fff;
+  box-shadow:0 0 0 3px var(--ring);
+}
+
+    @media (max-width: 720px){ .row{grid-template-columns:1fr;align-items:start} .date{justify-self:start} .videotitle{margin-top:-4px} }
+    .nothing{color:var(--muted);text-align:center;padding:20px;border:1px dashed var(--border);border-radius:12px}
+
+    /* プレイヤー */
+    .player-panel{position:sticky;top:84px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--panel)}
+/* 余白を詰めたい場合は上の top を調整。sticky なのでスクロールについてきます。*/
+    .player-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f0f1ff;border-bottom:1px solid var(--border)}
+
+    /* 既存のプレイヤーCSSのすぐ下あたりに追記 */
+    .player-head .drag-handle{
+        font-weight:700;
+        opacity:.5;
+        padding:0 6px;
+        border-radius:6px;
     }
-  }
-  /* 行リスト */
-  .list {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-  }
-  .row {
-    display: grid;
-    grid-template-columns: minmax(260px, 1.5fr) 120px minmax(0, 2fr);
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    border-top: 1px solid var(--border);
-    background: #fafafa;
-  }
-  .row:nth-child(odd) {
-    background: #f6f6fb;
-  }
-  .row:first-child {
-    border-top: none;
-  }
-  .songcell {
-    display: flex;
-    flex-direction: column;
-  }
-  .songtitle {
-    font-weight: 600;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .songtitle .note {
-    font-size: 18px;
-  }
-  .artist {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .link {
-    all: unset;
-    cursor: pointer;
-    color: inherit;
-  }
-  .link:hover {
-    color: var(--accent);
-    text-decoration: underline;
-  }
-  .link.artist {
-    color: var(--muted);
-  }
-  .date {
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum" 1;
-    color: #374151;
-    justify-self: end;
-    text-align: right;
-    width: 120px;
-  }
-  .videotitle {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .videotitle button {
-    all: unset;
-    cursor: pointer;
-    color: #111;
-  }
-  .videotitle button:hover {
-    color: var(--accent);
-    text-decoration: underline;
-  }
-  .ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tags-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-top: 2px;
-    padding-top: 6px;
-    border-top: 1px dashed var(--border);
-  }
-  .tags-row::before {
-    content: "タグ";
-    font-size: 11px;
-    color: var(--muted);
-    margin-right: 4px;
-    padding: 2px 6px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: #fff;
-  }
-  .tag-badge {
-    appearance: none;
-    border: 0;
-    cursor: pointer;
-    font-size: 12px;
-    line-height: 1;
-    padding: 8px 12px;
-    border-radius: 999px;
-    background: #f2efff;
-    color: #4c46a6;
-    border: 1px solid #e5dfff;
-    display: inline-flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .tag-badge::before {
-    content: "#";
-    font-weight: 700;
-    opacity: 0.6;
-  }
-  .tag-badge:hover {
-    filter: brightness(0.97);
-  }
-  .tag-badge:active {
-    transform: translateY(1px);
-  }
-  .tag-badge.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 0 3px var(--ring);
-  }
-  @media (max-width: 720px) {
-    .row {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-    .date {
-      justify-self: start;
-    }
-    .videotitle {
-      margin-top: -4px;
-    }
-  }
-  .nothing {
-    color: var(--muted);
-    text-align: center;
-    padding: 20px;
-    border: 1px dashed var(--border);
-    border-radius: 12px;
-  }
-  /* プレイヤー */
-  .player-panel {
-    position: sticky;
-    top: 84px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    background: var(--panel);
-  }
-  .player-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    background: #f0f1ff;
-    border-bottom: 1px solid var(--border);
-  }
-  .player-head .drag-handle {
-    font-weight: 700;
-    opacity: 0.5;
-    padding: 0 6px;
-    border-radius: 6px;
-  }
-  .player-panel.is-float .player-head:active {
-    cursor: grabbing;
-  }
-  .player-title {
-    font-size: 14px;
-    color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .player-sub {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .player-body {
-    position: relative;
-    aspect-ratio: 16/9;
-    width: 100%;
-    background: #000;
-  }
-  .player-body iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-  .player-foot {
-    padding: 10px 14px;
-    border-top: 1px solid var(--border);
-    background: #fff;
-  }
-  .meta-line {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-  }
-  .setlist {
-    max-height: 420px;
-    overflow: auto;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-top: 8px;
-  }
-  .set-item {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 10px 12px;
-    border-top: 1px solid var(--border);
-    background: #fafafa;
-    cursor: pointer;
-  }
-  .set-item:first-child {
-    border-top: none;
-  }
-  .set-item:hover {
-    background: #f3f4ff;
-  }
-  .set-item.active {
-    background: #e9ecff;
-  }
-  .set-title {
-    display: flex;
-    flex-direction: column;
-  }
-  .set-song {
-    font-weight: 600;
-  }
-  .set-artist {
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .set-time {
-    font-variant-numeric: tabular-nums;
-    color: #374151;
-    white-space: nowrap;
-  }
-  .warn {
-    margin-top: 8px;
-    padding: 10px 12px;
-    color: #92400e;
-    background: #fff7ed;
-    border: 1px solid #fed7aa;
-    border-radius: 8px;
-  }
+.player-panel.is-float .player-head:active{
+  cursor: grabbing;
+}
+
+    .player-title{font-size:14px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .player-sub{font-size:12px;color:var(--muted)}
+    .player-body{position:relative;aspect-ratio:16/9;width:100%;background:#000}
+    .player-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .player-foot{padding:10px 14px;border-top:1px solid var(--border);background:#fff}
+    .meta-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+    .setlist{max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;margin-top:8px}
+    .set-item{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-top:1px solid var(--border);background:#fafafa;cursor:pointer}
+    .set-item:first-child{border-top:none}
+    .set-item:hover{background:#f3f4ff}
+    .set-item.active{background:#e9ecff}
+    .set-title{display:flex;flex-direction:column}
+    .set-song{font-weight:600}
+    .set-artist{font-size:12px;color:var(--muted)}
+    .set-time{font-variant-numeric:tabular-nums;color:#374151;white-space:nowrap}
+
+    .warn{margin-top:8px;padding:10px 12px;color:#92400e;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px}
   /* ===== プレイヤー追従（デスクトップ）＆モバイル浮動プレイヤー ===== */
-  /* デスクトップ：スクロール追従 */
-  @media (min-width: 901px) {
-    .player-col {
-      position: sticky;
-      top: 84px;
-      align-self: start;
-      height: fit-content;
-      z-index: 5;
+    /* デスクトップ：スクロール追従 */
+    @media (min-width: 901px){
+      /* カラム全体をstickyにして、ページスクロールについてくる */
+      .player-col{ position: sticky; top: 84px; align-self:start; height: fit-content; z-index: 5; }
+      /* 内側のパネルは通常フローに（入れ子stickyを避ける） */
+      .player-panel{ position: static; }
     }
-    .player-panel {
-      position: static;
-    }
+    /* モバイル：右下に小さな常時表示プレイヤー */
+    @media (max-width: 900px){
+      body.has-float{ padding-bottom: 220px; } /* 下を見やすくするための余白 */
+      .player-panel.is-float{ position: fixed; right: 12px; bottom: 12px; width: min(88vw, 340px); z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,.25); border-radius: 14px; }
+      @media (max-width: 900px){
+  .player-panel.is-float{
+    position: fixed; right: 12px; bottom: 12px;
+    width: min(92vw, 360px);
+    z-index: 1000; box-shadow: 0 12px 32px rgba(0,0,0,.28);
+    border-radius: 14px; overflow: hidden;    /* ← 追加 */
+    background: var(--panel,#fff);            /* ← 追加 */
   }
-  /* モバイル：右下に小さな常時表示プレイヤー */
-  @media (max-width: 900px) {
-    body.has-float {
-      padding-bottom: 220px;
-    }
-    .player-panel.is-float {
-      position: fixed;
-      right: 12px;
-      bottom: 12px;
-      width: min(92vw, 360px);
-      z-index: 1000;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
-      border-radius: 14px;
-      overflow: hidden;
-      background: var(--panel, #fff);
-    }
-    .player-panel.is-float .player-head {
-      display: flex;
-      align-items: center;
-      padding: 6px 10px;
-      gap: 8px;
-      height: 36px;
-      cursor: grab;
-      user-select: none;
-    }
-    .player-panel.is-float .player-body {
-      aspect-ratio: 16/9;
-    }
-    .player-panel.is-float .player-foot {
-      display: block;
-      max-height: 40vh;
-      overflow: auto;
-      border-top: 1px solid #eee;
-    }
-    .player-panel.is-float .setlist .item {
-      padding: 10px 12px;
-      font-size: 14px;
-      line-height: 1.25;
-    }
-    .player-panel.is-float .player-body {
-      aspect-ratio: 16/9;
-    }
+  /* ← ここを変更：headは縮めるだけ、foot（セットリスト）は表示する */
+  .player-panel.is-float .player-head{
+    display:flex; align-items:center;
+    padding: 6px 10px; gap: 8px; height: 36px;
+    cursor: grab; user-select:none;           /* ← ドラッグ用 */
   }
-  .list-col {
-    grid-area: list;
+  .player-panel.is-float .player-body{ aspect-ratio: 16/9; }
+  .player-panel.is-float .player-foot{
+    display:block; max-height: 40vh;          /* ← セットリストを出す */
+    overflow:auto; border-top: 1px solid #eee;
   }
-  .player-col {
-    grid-area: player;
+  /* セットリストの行をタッチしやすく */
+  .player-panel.is-float .setlist .item{
+    padding: 10px 12px; font-size: 14px; line-height: 1.25;
   }
+}
+
+      .player-panel.is-float .player-body{ aspect-ratio: 16/9; }
+    }
+  .list-col{grid-area:list}
+    .player-col{grid-area:player}
   /* お気に入りボタンのスタイル */
-  .favorite-btn {
-    all: unset;
-    cursor: pointer;
-    padding: 0;
-    margin-left: 8px;
-  }
-  .star-icon {
-    font-size: 20px;
-    color: #ccc;
-    transition: color 0.2s ease;
-  }
-  .favorite-btn.is-favorited .star-icon {
-    color: #ffd700;
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-  }
-</style>
+.favorite-btn {
+  /* ボタンのデフォルトスタイルをすべてリセット */
+  all: unset;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px; /* 曲名からの間隔 */
+}
+
+.star-icon {
+  font-size: 20px;
+  color: #ccc; /* 通常時の灰色 */
+  transition: color 0.2s ease;
+}
+
+/* お気に入り登録時のスタイル */
+.favorite-btn.is-favorited .star-icon {
+  color: #FFD700; /* 登録後の金色 */
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+  </style>
 </head>
 <body>
-  <header>
-    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:20px">
-      <a href="../index.html" class="brand" aria-label="HOME">
-      <span style="font-weight:700;color:#4c46a6">HOME</span>
-    </a>
-      <h1>🎵 長尾景 曲検索</h1>
-      <div class="toolbar">
-        <div class="searchbar"><input id="q" type="search" placeholder="曲名・アーティスト・動画タイトル・タグで検索" autocomplete="off" /></div>
-        <div class="filterbar">
-          <span class="label">タグで絞り込み：</span>
-          <div id="filterTags" class="filter-tags"></div>
-          <button id="filterFavorites" class="chip-tag" type="button" style="display:none">★ お気に入り</button>
-          <button id="clearTags" class="chip-clear" type="button" style="display:none">フィルター解除</button>
-        </div>
-        
-      </div>
-    </div>
-  </header>
+  <header>
+    <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+      <a href="../index.html" class="brand" aria-label="HOME">
+      <span style="font-weight:700;color:#4c46a6">HOME</span>
+    </a>
+      <h1>🎵 長尾景 曲検索</h1>
+      <div class="toolbar">
+        <div class="searchbar"><input id="q" type="search" placeholder="曲名・アーティスト・動画タイトル・タグで検索" autocomplete="off" /></div>
+        <div class="filterbar">
+          <span class="label">タグで絞り込み：</span>
+          <div id="filterTags" class="filter-tags"></div>
+          <button id="filterFavorites" class="chip-tag" type="button" style="display:none">★ お気に入り</button>
+          <button id="clearTags" class="chip-clear" type="button" style="display:none">フィルター解除</button>
+        </div>
+        
+      </div>
+    </div>
+  </header>
 
-  <main class="wrap">
-    <div id="grid" class="grid player-left">
-      <section class="list-col">
-        <div id="list" class="list"></div>
-        <div id="empty" class="nothing" style="display:none">該当する結果がありません。</div>
-      </section>
-      <aside class="player-col">
-        <div class="player-panel" id="playerPanel" style="display:none">
-          <div class="player-head">
-            <span class="drag-handle" aria-label="Move">≡</span>
-            
-            <div>
-              <div class="player-title" id="playerTitle">（動画タイトル）</div>
-              <div class="player-sub" id="playerMeta">YYYY.MM.DD / チャンネル名</div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center"><a id="openYT" href="#" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent);text-decoration:none">YouTubeで開く ↗</a></div>
-          </div>
-          <div class="player-body"><iframe id="ytFrame" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
-          <div class="player-foot">
-            <div class="meta-line"><strong>セットリスト</strong></div>
-            <div class="setlist" id="setlist"></div>
-            <div id="embedWarn" class="warn" style="display:none">この動画はページ内再生が許可されていない可能性があります。<a id="warnLink" href="#" target="_blank" rel="noopener">YouTubeで開く</a> をお試しください。</div>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </main>
+  <main class="wrap">
+    <div id="grid" class="grid player-left">
+      <section class="list-col">
+        <div id="list" class="list"></div>
+        <div id="empty" class="nothing" style="display:none">該当する結果がありません。</div>
+      </section>
+      <aside class="player-col">
+        <div class="player-panel" id="playerPanel" style="display:none">
+          <div class="player-head">
+            <span class="drag-handle" aria-label="Move">≡</span>
+            
+            <div>
+              <div class="player-title" id="playerTitle">（動画タイトル）</div>
+              <div class="player-sub" id="playerMeta">YYYY.MM.DD / チャンネル名</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center"><a id="openYT" href="#" target="_blank" rel="noopener" style="font-size:12px;color:var(--accent);text-decoration:none">YouTubeで開く ↗</a></div>
+          </div>
+          <div class="player-body"><iframe id="ytFrame" src="about:blank" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+          <div class="player-foot">
+            <div class="meta-line"><strong>セットリスト</strong></div>
+            <div class="setlist" id="setlist"></div>
+            <div id="embedWarn" class="warn" style="display:none">この動画はページ内再生が許可されていない可能性があります。<a id="warnLink" href="#" target="_blank" rel="noopener">YouTubeで開く</a> をお試しください。</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-  <script>
-    const $list = document.getElementById('list');
-    const $empty = document.getElementById('empty');
-    const $q = document.getElementById('q');
-    const $grid = document.getElementById('grid');
-    const $filterTags = document.getElementById('filterTags');
-    const $clearTags = document.getElementById('clearTags');
-    // const $clearTags = document.getElementById('clearTags'); の下に追加
-    const $filterFavorites = document.getElementById('filterFavorites');
-    let filterByFavorites = false; // お気に入りで絞り込むかの状態を管理するフラグ
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    const $list = document.getElementById('list');
+    const $empty = document.getElementById('empty');
+    const $q = document.getElementById('q');
+    const $grid = document.getElementById('grid');
+    const $filterTags = document.getElementById('filterTags');
+    const $clearTags = document.getElementById('clearTags');
+    // const $clearTags = document.getElementById('clearTags'); の下に追加
+    const $filterFavorites = document.getElementById('filterFavorites');
+    let filterByFavorites = false; // お気に入りで絞り込むかの状態を管理するフラグ
 
-    const $panel = document.getElementById('playerPanel');
-    const $yt = document.getElementById('ytFrame');
-    const $title = document.getElementById('playerTitle');
-    const $meta = document.getElementById('playerMeta');
-    const $open = document.getElementById('openYT');
-    const $warn = document.getElementById('embedWarn');
-    const $warnLink = document.getElementById('warnLink');
-    const $setlist = document.getElementById('setlist');
+    const $panel = document.getElementById('playerPanel');
+    const $yt = document.getElementById('ytFrame');
+    const $title = document.getElementById('playerTitle');
+    const $meta = document.getElementById('playerMeta');
+    const $open = document.getElementById('openYT');
+    const $warn = document.getElementById('embedWarn');
+    const $warnLink = document.getElementById('warnLink');
+    const $setlist = document.getElementById('setlist');
 
-    const pad = n => String(n).padStart(2,'0');
-    const ymdToDots = ymd => { const [y,m,d] = (ymd||'').split('-'); return y?`${y}.${pad(m)}.${pad(d)}`:''; };
-    const FAVORITES_KEY = 'favorites';
-    function fillSearch(text){ if(!text) return; $q.value=text; applyFilter(); }
+    const pad = n => String(n).padStart(2,'0');
+    const ymdToDots = ymd => { const [y,m,d] = (ymd||'').split('-'); return y?`${y}.${pad(m)}.${pad(d)}`:''; };
 
-    function toSeconds(v){
-      if(v==null) return 0;
-      if (typeof v === 'number') return Math.max(0, v|0);
-      if (/^\d+$/.test(v)) return Math.max(0, parseInt(v,10));
-      const p = String(v).split(':').map(Number);
-      if (p.length===3) return p[0]*3600 + p[1]*60 + p[2];
-      if (p.length===2) return p[0]*60 + p[1];
-      return 0;
-    }
-    const hms = sec => { sec=toSeconds(sec); const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60), s=Math.floor(sec%60); return `${pad(h)}:${pad(m)}:${pad(s)}`; };
+    function fillSearch(text){ if(!text) return; $q.value=text; applyFilter(); }
 
-    let player=null, apiReady=false;
-    window.onYouTubeIframeAPIReady = ()=>{ apiReady = true; };
-    function loadVideo(id, start=0){
-      $warn.style.display='none';
-      const startSec = toSeconds(start);
+    function toSeconds(v){
+      if(v==null) return 0;
+      if (typeof v === 'number') return Math.max(0, v|0);
+      if (/^\d+$/.test(v)) return Math.max(0, parseInt(v,10));
+      const p = String(v).split(':').map(Number);
+      if (p.length===3) return p[0]*3600 + p[1]*60 + p[2];
+      if (p.length===2) return p[0]*60 + p[1];
+      return 0;
+    }
+    const hms = sec => { sec=toSeconds(sec); const h=Math.floor(sec/3600), m=Math.floor(sec%3600/60), s=Math.floor(sec%60); return `${pad(h)}:${pad(m)}:${pad(s)}`; };
 
-  // ✅ 埋め込みURLを www.youtube.com/embed/ に統一
-      const url = `https://www.youtube.com/embed/${id}?start=${startSec}&autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
+    let player=null, apiReady=false;
+    window.onYouTubeIframeAPIReady = ()=>{ apiReady = true; };
+    function loadVideo(id, start=0){
+      $warn.style.display='none';
+      const startSec = toSeconds(start);
 
-      if(apiReady){
-        if(!player){
-          player = new YT.Player('ytFrame', {
-            playerVars:{rel:0,modestbranding:1,playsinline:1},
-            events:{ onError:()=>($warn.style.display='block') }
-          });
-        }
-        try{
-          player.loadVideoById({videoId:id, startSeconds:startSec});
-          return;
-        }catch(e){}
-      }
-      $yt.src = url;
-    }
+  // ✅ 埋め込みURLを www.youtube.com/embed/ に統一
+      const url = `https://www.youtube.com/embed/${id}?start=${startSec}&autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
+
+      if(apiReady){
+        if(!player){
+          player = new YT.Player('ytFrame', {
+            playerVars:{rel:0,modestbranding:1,playsinline:1},
+            events:{ onError:()=>($warn.style.display='block') }
+          });
+        }
+        try{
+          player.loadVideoById({videoId:id, startSeconds:startSec});
+          return;
+        }catch(e){}
+      }
+      $yt.src = url;
+    }
 
 
-    // ===== データ整形 =====
-    function normalizeVideos(videos){
-  const map = new Map();
-  for(const raw of videos){
-    const v = {...raw};
-    const id = v.youtubeId;
+    // ===== データ整形 =====
+    function normalizeVideos(videos){
+  const map = new Map();
+  for(const raw of videos){
+    const v = {...raw};
+    const id = v.youtubeId;
 
-    // 動画レベルのタグ（配列化）
-    const videoTags = Array.isArray(v.tags) ? v.tags.filter(Boolean) : [];
+    // 動画レベルのタグ（配列化）
+    const videoTags = Array.isArray(v.tags) ? v.tags.filter(Boolean) : [];
 
-    // ★ 曲にも tags を持たせる。無ければ videoTags を継承
-    const songs = (v.songs || v.setlist || []).map(s => ({
-      title:  s.title  || s.song   || '',
-      artist: s.artist || s.singer || '（不明）',
-      start:  toSeconds(s.start ?? s.time ?? s.begin ?? 0),
-      tags:   Array.isArray(s.tags) ? s.tags.filter(Boolean) : videoTags
-    }));
+    // ★ 曲にも tags を持たせる。無ければ videoTags を継承
+    const songs = (v.songs || v.setlist || []).map(s => ({
+      title:  s.title  || s.song   || '',
+      artist: s.artist || s.singer || '（不明）',
+      start:  toSeconds(s.start ?? s.time ?? s.begin ?? 0),
+      tags:   Array.isArray(s.tags) ? s.tags.filter(Boolean) : videoTags
+    }));
 
-    if(!map.has(id)){
-      map.set(id, {
-        title: v.title||'',
-        date: v.date||'',
-        channel: v.channel||'',
-        youtubeId: id||'',
-        songs: [],
-        tags: videoTags.slice() // videoレベルのタグも保持
-      });
-    }
-    const bucket = map.get(id);
+    if(!map.has(id)){
+      map.set(id, {
+        title: v.title||'',
+        date: v.date||'',
+        channel: v.channel||'',
+        youtubeId: id||'',
+        songs: [],
+        tags: videoTags.slice() // videoレベルのタグも保持
+      });
+    }
+    const bucket = map.get(id);
 
-    // 曲の重複排除
-    for(const s of songs){
-      const key = `${s.title}__${s.artist}__${s.start}`;
-      if(!bucket.songs.some(t => `${t.title}__${t.artist}__${t.start}`===key)){
-        bucket.songs.push(s);
-      }
-    }
-  }
-  for(const v of map.values()){ v.songs.sort((a,b)=> a.start - b.start); }
-  return [...map.values()];
+    // 曲の重複排除
+    for(const s of songs){
+      const key = `${s.title}__${s.artist}__${s.start}`;
+      if(!bucket.songs.some(t => `${t.title}__${t.artist}__${t.start}`===key)){
+        bucket.songs.push(s);
+      }
+    }
+  }
+  for(const v of map.values()){ v.songs.sort((a,b)=> a.start - b.start); }
+  return [...map.values()];
 }
 
 
-    let ALL_ROWS=[]; let VIDEO_MAP=new Map(); let ALL_TAGS=[]; const SELECTED_TAGS=new Set();
-  function buildRows(videos){
-  const merged = normalizeVideos(videos);
-  VIDEO_MAP = new Map(merged.map(v => [v.youtubeId, v]));
-  ALL_ROWS = [];
+    let ALL_ROWS=[]; let VIDEO_MAP=new Map(); let ALL_TAGS=[]; const SELECTED_TAGS=new Set();
+  function buildRows(videos){
+  const merged = normalizeVideos(videos);
+  VIDEO_MAP = new Map(merged.map(v => [v.youtubeId, v]));
+  ALL_ROWS = [];
 
-  for(const v of merged){
-    for(const s of v.songs){
-      ALL_ROWS.push({
-        song: s.title,
-        artist: s.artist,
-        date: v.date,
-        videoTitle: v.title,
-        youtubeId: v.youtubeId,
-        start: s.start,
-        // ★ 曲タグを行に入れる
-        tags: s.tags || [],
-        tagsText: (s.tags || []).join(' ')
-      });
-    }
-  }
+  for(const v of merged){
+    for(const s of v.songs){
+      ALL_ROWS.push({
+        song: s.title,
+        artist: s.artist,
+        date: v.date,
+        videoTitle: v.title,
+        youtubeId: v.youtubeId,
+        start: s.start,
+        // ★ 曲タグを行に入れる
+        tags: s.tags || [],
+        tagsText: (s.tags || []).join(' ')
+      });
+    }
+  }
 // ★ タグ一覧は行（曲）から作る
-  ALL_ROWS.sort((a,b)=>{
-    if(a.date!==b.date) return a.date<b.date?1:-1;
-    const s=a.song.localeCompare(b.song,'ja'); if(s) return s;
-    return a.artist.localeCompare(b.artist,'ja');
-  });
+  ALL_ROWS.sort((a,b)=>{
+    if(a.date!==b.date) return a.date<b.date?1:-1;
+    const s=a.song.localeCompare(b.song,'ja'); if(s) return s;
+    return a.artist.localeCompare(b.artist,'ja');
+  });
 
-  // ★ タグ一覧は行（曲）から作る
-  ALL_TAGS = Array.from(new Set(ALL_ROWS.flatMap(r => r.tags || [])))
-            .sort((a,b)=>a.localeCompare(b,'ja'));
+  // ★ タグ一覧は行（曲）から作る
+  ALL_TAGS = Array.from(new Set(ALL_ROWS.flatMap(r => r.tags || [])))
+            .sort((a,b)=>a.localeCompare(b,'ja'));
 
-  renderFilterTags();
+  renderFilterTags();
 }
-    // ===== タグフィルタ UI =====
+    // ===== タグフィルタ UI =====
 function renderFilterTags(){
-  // ★ボタンを制御
-  const favorites = getFavorites();
-  $filterFavorites.style.display = favorites.length > 0 ? '' : 'none';
-  $filterFavorites.classList.toggle('active', filterByFavorites);
-  
-  // 他のタグの描画
-  $filterTags.innerHTML='';
-  if(!ALL_TAGS.length && favorites.length === 0){ 
-      $filterTags.parentElement.style.display='none'; 
-      $clearTags.style.display='none'; 
-      return; 
-  }
-  $filterTags.parentElement.style.display='';
-  for(const t of ALL_TAGS){
-    const b=document.createElement('button');
-    b.className='chip-tag'+(SELECTED_TAGS.has(t)?' active':'');
-    b.type='button'; b.textContent=t;
-    b.addEventListener('click', ()=>{ 
-        filterByFavorites = false; // タグをクリックしたらお気に入り絞り込みを解除
-        if(SELECTED_TAGS.has(t)) SELECTED_TAGS.delete(t); 
-        else SELECTED_TAGS.add(t); 
-        renderFilterTags(); 
-        applyFilter(); 
-    });
-    $filterTags.appendChild(b);
-  }
-  
-  $clearTags.style.display = (SELECTED_TAGS.size > 0 || filterByFavorites) ? 'inline-block':'none';
+  // ★ボタンを制御
+  const favorites = getFavorites();
+  $filterFavorites.style.display = favorites.length > 0 ? '' : 'none';
+  $filterFavorites.classList.toggle('active', filterByFavorites);
+  
+  // 他のタグの描画
+  $filterTags.innerHTML='';
+  if(!ALL_TAGS.length && favorites.length === 0){ 
+      $filterTags.parentElement.style.display='none'; 
+      $clearTags.style.display='none'; 
+      return; 
+  }
+  $filterTags.parentElement.style.display='';
+  for(const t of ALL_TAGS){
+    const b=document.createElement('button');
+    b.className='chip-tag'+(SELECTED_TAGS.has(t)?' active':'');
+    b.type='button'; b.textContent=t;
+    b.addEventListener('click', ()=>{ 
+        filterByFavorites = false; // タグをクリックしたらお気に入り絞り込みを解除
+        if(SELECTED_TAGS.has(t)) SELECTED_TAGS.delete(t); 
+        else SELECTED_TAGS.add(t); 
+        renderFilterTags(); 
+        applyFilter(); 
+    });
+    $filterTags.appendChild(b);
+  }
+  
+  $clearTags.style.display = (SELECTED_TAGS.size > 0 || filterByFavorites) ? 'inline-block':'none';
 }
 
 // clearTagsのイベントリスナーも修正
-$clearTags.addEventListener('click', ()=>{ 
-    SELECTED_TAGS.clear(); 
-    filterByFavorites = false; // 全クリア時にお気に入りも解除
-    renderFilterTags(); 
-    applyFilter(); 
+$clearTags.addEventListener('click', ()=>{ 
+    SELECTED_TAGS.clear(); 
+    filterByFavorites = false; // 全クリア時にお気に入りも解除
+    renderFilterTags(); 
+    applyFilter(); 
 });
 
 // 新しいお気に入りボタンのイベントリスナー
 $filterFavorites.addEventListener('click', ()=>{
-    filterByFavorites = !filterByFavorites; // 状態を反転
-    SELECTED_TAGS.clear(); // お気に入り絞り込み時は他のタグをクリア
-    renderFilterTags();
-    applyFilter();
+    filterByFavorites = !filterByFavorites; // 状態を反転
+    SELECTED_TAGS.clear(); // お気に入り絞り込み時は他のタグをクリア
+    renderFilterTags();
+    applyFilter();
 });
-    
+    
 // お気に入りリストをlocalStorageから取得
 function getFavorites() {
-  const favorites = localStorage.getItem(FAVORITES_KEY);
-  return favorites ? JSON.parse(favorites) : [];
+  const favorites = localStorage.getItem(FAVORITES_KEY);
+  return favorites ? JSON.parse(favorites) : [];
 }
 
 // お気に入りリストをlocalStorageに保存
 function saveFavorites(favorites) {
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
-}
-function renderSetlist(video, currentId, currentTime) {
-  const $setlist = document.getElementById('setlist');
-  $setlist.innerHTML = '';
-  if (!video || !video.songs || video.songs.length === 0) {
-    $setlist.innerHTML = '<div style="padding:10px;text-align:center;color:#6b7280;">セットリストがありません</div>';
-    return;
-  }
-  video.songs.forEach(song => {
-    const item = document.createElement('div');
-    item.className = 'set-item' + (song.start === currentTime ? ' active' : '');
-    item.innerHTML = `<div class="set-title"><span class="set-song">${song.title}</span><span class="set-artist">${song.artist}</span></div><div class="set-time">${hms(song.start)}</div>`;
-    item.addEventListener('click', () => {
-      // playFrom関数に正しい引数を渡すように修正
-      const songInfo = {
-        youtubeId: currentId,
-        start: song.start,
-        videoTitle: video.title,
-        date: video.date
-      };
-      playFrom(songInfo);
-    });
-    $setlist.appendChild(item);
-  });
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
 }
   
 // ===== リスト描画 =====
 
 function renderRows(rows){
-  $list.innerHTML='';
-  if(!rows.length){ $empty.style.display='block'; return; }
-  $empty.style.display='none';
+  $list.innerHTML='';
+  if(!rows.length){ $empty.style.display='block'; return; }
+  $empty.style.display='none';
 
-  // 行データ r から「パネル更新＋再生」を実行するヘルパー
-  function playFrom(r){
-    const id = r.youtubeId;
-    const start = toSeconds(r.start);
-    const video = VIDEO_MAP.get(id) || { songs:[], tags:[], channel:'', title:r.videoTitle };
+  // 行データ r から「パネル更新＋再生」を実行するヘルパー
+  function playFrom(r){
+    const id = r.youtubeId;
+    const start = toSeconds(r.start);
+    const video = VIDEO_MAP.get(id) || { songs:[], tags:[], channel:'', title:r.videoTitle };
 
-    // 再生パネルの更新
-    $title.textContent = `${r.videoTitle}${start ? `（${hms(start)}〜）` : ''}`;
-    $meta.textContent = `${ymdToDots(r.date)} / ${video.channel || ''}`;
-    const openUrl = `https://www.youtube.com/watch?v=${id}&t=${start||0}s`;
-    $open.href = openUrl;
-    $warnLink.href = openUrl;
+    // 再生パネルの更新
+    $title.textContent = `${r.videoTitle}${start ? `（${hms(start)}〜）` : ''}`;
+    $meta.textContent = `${ymdToDots(r.date)} / ${video.channel || ''}`;
+    const openUrl = `https://www.youtube.com/watch?v=${id}&t=${start||0}s`;
+    $open.href = openUrl;
+    $warnLink.href = openUrl;
 
-    // セットリスト描画＆再生
-    renderSetlist(video, id, start||0);
-    loadVideo(id, start||0);
+    // セットリスト描画＆再生
+    renderSetlist(video, id, start||0);
+    loadVideo(id, start||0);
 
-    // パネル表示と追従UI
-    $panel.style.display='block';
-    updateFloatOnPlay();
-    $panel.scrollIntoView({behavior:'smooth', block:'nearest'});
-  }
+    // パネル表示と追従UI
+    $panel.style.display='block';
+    updateFloatOnPlay();
+    $panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
 
-  for(const r of rows){
-    const div = document.createElement('div');
-    div.className = 'row';
+  for(const r of rows){
+    const div = document.createElement('div');
+    div.className = 'row';
 
-    div.innerHTML = `
-      <div class="songcell" data-song-key="${r.youtubeId}-${r.start}">
-        <div class="songtitle ellipsis">
-          <span class="note">🎵</span>
-          <span class="song link">${r.song}</span>
-          <button class="favorite-btn" aria-label="お気に入りに追加/削除">
-            <span class="star-icon">☆</span>
-          </button>
-        </div>
-        <div class="artist ellipsis"><span class="artist link">${r.artist||''}</span></div>
-      </div>
-      <div class="date">${ymdToDots(r.date)}</div>
-      <div class="videotitle">
-          <div class="ellipsis">
-            <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}">
-              ${r.videoTitle}
-            </button>
-          </div>
-          <div class="tags-row"></div>
-        </div>`;
-    
-    // イベントリスナーの設定をここで行う
-    const favBtn = div.querySelector('.favorite-btn');
-    const songKey = div.querySelector('.songcell').dataset.songKey;
+    div.innerHTML = `
+      <div class="songcell" data-song-key="${r.youtubeId}-${r.start}">
+        <div class="songtitle ellipsis">
+          <span class="note">🎵</span>
+          <span class="song link">${r.song}</span>
+          <button class="favorite-btn" aria-label="お気に入りに追加/削除">
+            <span class="star-icon">☆</span>
+          </button>
+        </div>
+        <div class="artist ellipsis"><span class="artist link">${r.artist||''}</span></div>
+      </div>
+      <div class="date">${ymdToDots(r.date)}</div>
+      <div class="videotitle">
+          <div class="ellipsis">
+            <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}">
+              ${r.videoTitle}
+            </button>
+          </div>
+          <div class="tags-row"></div>
+        </div>`;
+    
+    // イベントリスナーの設定をここで行う
+    const favBtn = div.querySelector('.favorite-btn');
+    const songKey = div.querySelector('.songcell').dataset.songKey;
 
-    if (getFavorites().includes(songKey)) {
-      favBtn.classList.add('is-favorited');
-    }
+    if (getFavorites().includes(songKey)) {
+      favBtn.classList.add('is-favorited');
+    }
 
-    favBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const currentFavorites = getFavorites();
-      const index = currentFavorites.indexOf(songKey);
-      
-      if (index > -1) {
-        currentFavorites.splice(index, 1);
-        favBtn.classList.remove('is-favorited');
-      } else {
-        currentFavorites.push(songKey);
-        favBtn.classList.add('is-favorited');
-      }
-      saveFavorites(currentFavorites);
-    });
+    favBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const currentFavorites = getFavorites();
+      const index = currentFavorites.indexOf(songKey);
+      
+      if (index > -1) {
+        currentFavorites.splice(index, 1);
+        favBtn.classList.remove('is-favorited');
+      } else {
+        currentFavorites.push(songKey);
+        favBtn.classList.add('is-favorited');
+      }
+      saveFavorites(currentFavorites);
+    });
 
-    const songEl = div.querySelector('.song');
-    const artistEl = div.querySelector('.artist');
-    songEl.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(r.song); });
-    artistEl.addEventListener('click', (e)=>{ e.stopPropagation(); if(r.artist) fillSearch(r.artist); });
+    const songEl = div.querySelector('.song');
+    const artistEl = div.querySelector('.artist');
+    songEl.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(r.song); });
+    artistEl.addEventListener('click', (e)=>{ e.stopPropagation(); if(r.artist) fillSearch(r.artist); });
 
-    const rowTagBox = div.querySelector('.tags-row');
-    const tags = (r.tags && r.tags.length) ? r.tags : (VIDEO_MAP.get(r.youtubeId)?.tags || []);
-    tags.forEach(t=>{
-      const b = document.createElement('button');
-      b.className = 'tag-badge';
-      b.type = 'button';
-      b.textContent = t;
-      b.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(t); });
-      rowTagBox.appendChild(b);
-    });
+    const rowTagBox = div.querySelector('.tags-row');
+    const tags = (r.tags && r.tags.length) ? r.tags : (VIDEO_MAP.get(r.youtubeId)?.tags || []);
+    tags.forEach(t=>{
+      const b = document.createElement('button');
+      b.className = 'tag-badge';
+      b.type = 'button';
+      b.textContent = t;
+      b.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(t); });
+      rowTagBox.appendChild(b);
+    });
 
-    const vtBtn = div.querySelector('.videotitle .videolink');
-    vtBtn.addEventListener('click', (e)=>{ e.stopPropagation(); playFrom(r); });
-    vtBtn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); playFrom(r); }});
+    const vtBtn = div.querySelector('.videotitle .videolink');
+    vtBtn.addEventListener('click', (e)=>{ e.stopPropagation(); playFrom(r); });
+    vtBtn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); playFrom(r); }});
 
-    const onRowPlay = (e)=>{
-      if (e.target.closest('.song')) return;
-      if (e.target.closest('.artist')) return;
-      if (e.target.closest('.tag-badge')) return;
-      playFrom(r);
-    };
-    div.addEventListener('click', onRowPlay);
-    div.tabIndex = 0;
-    div.setAttribute('role','button');
-    div.setAttribute('aria-label', `${r.song} / ${r.artist||''} を再生`);
-    div.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); onRowPlay(e); }});
+    const onRowPlay = (e)=>{
+      if (e.target.closest('.song')) return;
+      if (e.target.closest('.artist')) return;
+      if (e.target.closest('.tag-badge')) return;
+      playFrom(r);
+    };
+    div.addEventListener('click', onRowPlay);
+    div.tabIndex = 0;
+    div.setAttribute('role','button');
+    div.setAttribute('aria-label', `${r.song} / ${r.artist||''} を再生`);
+    div.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); onRowPlay(e); }});
 
-    $list.appendChild(div);
-  }
+    $list.appendChild(div);
+  }
 }
     // ===== フィルタ（検索テキスト＋タグ AND） =====
 function applyFilter(){
@@ -879,7 +599,7 @@ function applyFilter(){
     }
     renderRows(filteredRows);
 }
-    fetch('videos_temp.json')
+    fetch('videos.json')
       .then(r => r.json())
       .then(videos => {
     // 動画タグの継承と全角カッコの修正（この部分はそのまま）
@@ -905,7 +625,7 @@ function applyFilter(){
   .catch(err => {
     console.error(err);
     $empty.style.display='block';
-    $empty.textContent='videos_temp.json の読み込みに失敗しました。コンソールをご確認ください。';
+    $empty.textContent='videos.json の読み込みに失敗しました。コンソールをご確認ください。';
   });
 
 
@@ -1119,6 +839,36 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
