@@ -879,7 +879,7 @@ function applyFilter(){
     }
     renderRows(filteredRows);
 }
-    fetch('videos.json')
+    fetch('videos_temp.json')
       .then(r => r.json())
       .then(videos => {
     // 動画タグの継承と全角カッコの修正（この部分はそのまま）
@@ -905,7 +905,7 @@ function applyFilter(){
   .catch(err => {
     console.error(err);
     $empty.style.display='block';
-    $empty.textContent='videos.json の読み込みに失敗しました。コンソールをご確認ください。';
+    $empty.textContent='videos_temp.json の読み込みに失敗しました。コンソールをご確認ください。';
   });
 
 
@@ -1119,5 +1119,6 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
