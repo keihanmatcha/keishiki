@@ -24,202 +24,458 @@
 <meta name="twitter:image" content="https://oukasui.com/images/ogp.png">
 
  <style>
-    :root{ --fg:#222; --muted:#6b7280; --accent:#625DA1; --bg:#fff; --border:#e5e7eb; --panel:#f8f8ff; }
-    html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
-
-    header{position:sticky;top:0;background:#fffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--border)}
-    .wrap{max-width:1200px;margin-inline:auto;padding:14px 16px}
-    h1{margin:0 0 8px;font-size:20px}
-    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .searchbar{display:flex;gap:10px;align-items:center;flex:1}
-    .searchbar input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:16px}
-
-    /* タグフィルタ（グローバル） */
-    .filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .filterbar .label{font-size:12px;color:var(--muted)}
-    .filter-tags{display:flex;gap:8px;flex-wrap:wrap}
-    .chip-tag{font-size:12px;line-height:1;padding:8px 12px;border:1px solid #e5dfff;border-radius:999px;background:#f0ecff;color:#5b55a5;cursor:pointer}
-    .chip-tag:hover{filter:brightness(0.97)}
-    .chip-tag.active{background:var(--accent);border-color:var(--accent);color:#fff}
-    .chip-clear{font-size:12px;padding:6px 10px;border:1px dashed var(--border);border-radius:999px;background:#fff;color:#6b7280;cursor:pointer}
-    .chip-clear:hover{border-color:#c1c5e8;color:#4b5563}
-
-    /* 2カラム */
-    .grid{display:grid;gap:16px;align-items:start;grid-template-columns:1.2fr .8fr;grid-template-areas:"list player"}
-    .grid.player-left{grid-template-columns:.8fr 1.2fr;grid-template-areas:"player list"}
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr;grid-template-areas:"player" "list"} }
-
-    /* 行リスト */
-    .list{border:1px solid var(--border);border-radius:14px;overflow:hidden}
-    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
-    .row:nth-child(odd){background:#f6f6fb}
-    .row:first-child{border-top:none}
-    .songcell{display:flex;flex-direction:column}
-    .songtitle{font-weight:600;display:flex;gap:8px;align-items:center}
-    .songtitle .note{font-size:18px}
-    .artist{font-size:12px;color:var(--muted)}
-    .link{all:unset; cursor:pointer; color:inherit}
-    .link:hover{color:var(--accent); text-decoration:underline}
-    .link.artist{color:var(--muted)}
-    .date{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:#374151;justify-self:end;text-align:right;width:120px}
-    .videotitle{display:flex;flex-direction:column;gap:6px}
-    .videotitle button{all:unset;cursor:pointer;color:#111}
-    .videotitle button:hover{color:var(--accent);text-decoration:underline}
-    .ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .tags-row{display:flex;gap:6px;flex-wrap:wrap}
-    .tag{font-size:11px;line-height:1;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#374151;cursor:pointer}
-    .tag:hover{border-color:var(--accent);color:var(--accent)}
-
-    /* 動画タイトルブロック：タイトルとタグの距離を空ける */
-    .videotitle{
-      display:flex; flex-direction:column; gap:8px;
+  :root {
+    --fg: #222;
+    --muted: #6b7280;
+    --accent: #625DA1;
+    --bg: #fff;
+    --border: #e5e7eb;
+    --panel: #f8f8ff;
+  }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    background: #fffcc;
+    backdrop-filter: saturate(1.2) blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  .wrap {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 14px 16px;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: 20px;
+  }
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .searchbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex: 1;
+  }
+  .searchbar input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  /* タグフィルタ（グローバル） */
+  .filterbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .filterbar .label {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .filter-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip-tag {
+    font-size: 12px;
+    line-height: 1;
+    padding: 8px 12px;
+    border: 1px solid #e5dfff;
+    border-radius: 999px;
+    background: #f0ecff;
+    color: #5b55a5;
+    cursor: pointer;
+  }
+  .chip-tag:hover {
+    filter: brightness(0.97);
+  }
+  .chip-tag.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .chip-clear {
+    font-size: 12px;
+    padding: 6px 10px;
+    border: 1px dashed var(--border);
+    border-radius: 999px;
+    background: #fff;
+    color: #6b7280;
+    cursor: pointer;
+  }
+  .chip-clear:hover {
+    border-color: #c1c5e8;
+    color: #4b5563;
+  }
+  /* 2カラム */
+  .grid {
+    display: grid;
+    gap: 16px;
+    align-items: start;
+    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-areas: "list player";
+  }
+  .grid.player-left {
+    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-areas: "player list";
+  }
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      grid-template-areas: "player" "list";
     }
-
-    /* タグ行を“行”として明確化（左に薄いラベル、行全体の余白） */
-    .tags-row{
-      display:flex; flex-wrap:wrap; gap:8px;
-      align-items:center;
-      margin-top:2px;
-      padding-top:6px;
-      border-top:1px dashed var(--border);
+  }
+  /* 行リスト */
+  .list {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.5fr) 120px minmax(0, 2fr);
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: #fafafa;
+  }
+  .row:nth-child(odd) {
+    background: #f6f6fb;
+  }
+  .row:first-child {
+    border-top: none;
+  }
+  .songcell {
+    display: flex;
+    flex-direction: column;
+  }
+  .songtitle {
+    font-weight: 600;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .songtitle .note {
+    font-size: 18px;
+  }
+  .artist {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .link {
+    all: unset;
+    cursor: pointer;
+    color: inherit;
+  }
+  .link:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .link.artist {
+    color: var(--muted);
+  }
+  .date {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    color: #374151;
+    justify-self: end;
+    text-align: right;
+    width: 120px;
+  }
+  .videotitle {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .videotitle button {
+    all: unset;
+    cursor: pointer;
+    color: #111;
+  }
+  .videotitle button:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tags-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 2px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+  }
+  .tags-row::before {
+    content: "タグ";
+    font-size: 11px;
+    color: var(--muted);
+    margin-right: 4px;
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #fff;
+  }
+  .tag-badge {
+    appearance: none;
+    border: 0;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #f2efff;
+    color: #4c46a6;
+    border: 1px solid #e5dfff;
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .tag-badge::before {
+    content: "#";
+    font-weight: 700;
+    opacity: 0.6;
+  }
+  .tag-badge:hover {
+    filter: brightness(0.97);
+  }
+  .tag-badge:active {
+    transform: translateY(1px);
+  }
+  .tag-badge.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 0 3px var(--ring);
+  }
+  @media (max-width: 720px) {
+    .row {
+      grid-template-columns: 1fr;
+      align-items: start;
     }
-
-    /* タグ行のラベル（装飾）。必要なければコメントアウト可 */
-    .tags-row::before{
-      content:"タグ";
-      font-size:11px; color:var(--muted);
-      margin-right:4px; padding:2px 6px;
-      border:1px solid var(--border);
-      border-radius:999px; background:#fff;
+    .date {
+      justify-self: start;
     }
-
-    /* タグの“ピル”スタイル */
-    .tag-badge{
-      appearance:none; border:0; cursor:pointer;
-      font-size:12px; line-height:1;
-      padding:8px 12px; border-radius:999px;
-      background:#f2efff;
-      color:#4c46a6;
-      border:1px solid #e5dfff;
-      display:inline-flex; gap:6px; align-items:center;
+    .videotitle {
+      margin-top: -4px;
     }
-
-    /* ハッシュ # アイコン（疑似要素で付ける） */
-    .tag-badge::before{
-      content:"#";
-      font-weight:700; opacity:.6;
+  }
+  .nothing {
+    color: var(--muted);
+    text-align: center;
+    padding: 20px;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+  /* プレイヤー */
+  .player-panel {
+    position: sticky;
+    top: 84px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--panel);
+  }
+  .player-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #f0f1ff;
+    border-bottom: 1px solid var(--border);
+  }
+  .player-head .drag-handle {
+    font-weight: 700;
+    opacity: 0.5;
+    padding: 0 6px;
+    border-radius: 6px;
+  }
+  .player-panel.is-float .player-head:active {
+    cursor: grabbing;
+  }
+  .player-title {
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .player-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .player-body {
+    position: relative;
+    aspect-ratio: 16/9;
+    width: 100%;
+    background: #000;
+  }
+  .player-body iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .player-foot {
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: #fff;
+  }
+  .meta-line {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .setlist {
+    max-height: 420px;
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 8px;
+  }
+  .set-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-top: 1px solid var(--border);
+    background: #fafafa;
+    cursor: pointer;
+  }
+  .set-item:first-child {
+    border-top: none;
+  }
+  .set-item:hover {
+    background: #f3f4ff;
+  }
+  .set-item.active {
+    background: #e9ecff;
+  }
+  .set-title {
+    display: flex;
+    flex-direction: column;
+  }
+  .set-song {
+    font-weight: 600;
+  }
+  .set-artist {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .set-time {
+    font-variant-numeric: tabular-nums;
+    color: #374151;
+    white-space: nowrap;
+  }
+  .warn {
+    margin-top: 8px;
+    padding: 10px 12px;
+    color: #92400e;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+  }
+  /* ===== プレイヤー追従（デスクトップ）＆モバイル浮動プレイヤー ===== */
+  /* デスクトップ：スクロール追従 */
+  @media (min-width: 901px) {
+    .player-col {
+      position: sticky;
+      top: 84px;
+      align-self: start;
+      height: fit-content;
+      z-index: 5;
     }
-
-    /* ホバー & アクティブ */
-    .tag-badge:hover{ filter:brightness(.97) }
-    .tag-badge:active{ transform: translateY(1px) }
-
-    /* “選択中”を強めに見せたい場合（任意でJSから .active を付ける想定） */
-    .tag-badge.active{
-      background:var(--accent);
-      border-color:var(--accent);
-      color:#fff;
-      box-shadow:0 0 0 3px var(--ring);
+    .player-panel {
+      position: static;
     }
-    
-    @media (max-width: 720px){ .row{grid-template-columns:1fr;align-items:start} .date{justify-self:start} .videotitle{margin-top:-4px} }
-    
-    .nothing{color:var(--muted);text-align:center;padding:20px;border:1px dashed var(--border);border-radius:12px}
-
-    /* プレイヤー */
-    .player-panel{position:sticky;top:84px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--panel)}
-    /* 余白を詰めたい場合は上の top を調整。sticky なのでスクロールについてきます。*/
-    .player-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f0f1ff;border-bottom:1px solid var(--border)}
-    .player-head .drag-handle{
-        font-weight:700;
-        opacity:.5;
-        padding:0 6px;
-        border-radius:6px;
+  }
+  /* モバイル：右下に小さな常時表示プレイヤー */
+  @media (max-width: 900px) {
+    body.has-float {
+      padding-bottom: 220px;
     }
-    .player-panel.is-float .player-head:active{
-      cursor: grabbing;
-    }
-
-    .player-title{font-size:14px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .player-sub{font-size:12px;color:var(--muted)}
-    .player-body{position:relative;aspect-ratio:16/9;width:100%;background:#000}
-    .player-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-    .player-foot{padding:10px 14px;border-top:1px solid var(--border);background:#fff}
-    .meta-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
-    .setlist{max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;margin-top:8px}
-    .set-item{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-top:1px solid var(--border);background:#fafafa;cursor:pointer}
-    .set-item:first-child{border-top:none}
-    .set-item:hover{background:#f3f4ff}
-    .set-item.active{background:#e9ecff}
-    .set-title{display:flex;flex-direction:column}
-    .set-song{font-weight:600}
-    .set-artist{font-size:12px;color:var(--muted)}
-    .set-time{font-variant-numeric:tabular-nums;color:#374151;white-space:nowrap}
-
-    .warn{margin-top:8px;padding:10px 12px;color:#92400e;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px}
-    /* ===== プレイヤー追従（デスクトップ）＆モバイル浮動プレイヤー ===== */
-    /* デスクトップ：スクロール追従 */
-    @media (min-width: 901px){
-      /* カラム全体をstickyにして、ページスクロールについてくる */
-      .player-col{ position: sticky; top: 84px; align-self:start; height: fit-content; z-index: 5; }
-      /* 内側のパネルは通常フローに（入れ子stickyを避ける） */
-      .player-panel{ position: static; }
-    }
-    /* モバイル：右下に小さな常時表示プレイヤー */
-    @media (max-width: 900px){
-      body.has-float{ padding-bottom: 220px; } /* 下を見やすくするための余白 */
-      .player-panel.is-float{ position: fixed; right: 12px; bottom: 12px; width: min(88vw, 340px); z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,.25); border-radius: 14px; }
-      @media (max-width: 900px){
-    .player-panel.is-float{
-      position: fixed; right: 12px; bottom: 12px;
+    .player-panel.is-float {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
       width: min(92vw, 360px);
-      z-index: 1000; box-shadow: 0 12px 32px rgba(0,0,0,.28);
-      border-radius: 14px; overflow: hidden;      /* ← 追加 */
-      background: var(--panel,#fff);            /* ← 追加 */
-      }
-      /* ← ここを変更：headは縮めるだけ、foot（セットリスト）は表示する */
-      .player-panel.is-float .player-head{
-      display:flex; align-items:center;
-      padding: 6px 10px; gap: 8px; height: 36px;
-      cursor: grab; user-select:none;          /* ← ドラッグ用 */
-      }
-      .player-panel.is-float .player-body{ aspect-ratio: 16/9; }
-      .player-panel.is-float .player-foot{
-      display:block; max-height: 40vh;           /* ← セットリストを出す */
-      overflow:auto; border-top: 1px solid #eee;
-      }
-      /* セットリストの行をタッチしやすく */
-      .player-panel.is-float .setlist .item{
-      padding: 10px 12px; font-size: 14px; line-height: 1.25;
-      }
+      z-index: 1000;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--panel, #fff);
     }
-
-        .player-panel.is-float .player-body{ aspect-ratio: 16/9; }
-      }
-    .list-col{grid-area:list}
-    .player-col{grid-area:player}
-    /* お気に入りボタンのスタイル */
-    .favorite-btn {
-      /* ボタンのデフォルトスタイルをすべてリセット */
-      all: unset;
-      cursor: pointer;
-      padding: 0;
-      margin-left: 8px; /* 曲名からの間隔 */
+    .player-panel.is-float .player-head {
+      display: flex;
+      align-items: center;
+      padding: 6px 10px;
+      gap: 8px;
+      height: 36px;
+      cursor: grab;
+      user-select: none;
     }
-
-    .star-icon {
-      font-size: 20px;
-      color: #ccc; /* 通常時の灰色 */
-      transition: color 0.2s ease;
+    .player-panel.is-float .player-body {
+      aspect-ratio: 16/9;
     }
-
-    /* お気に入り登録時のスタイル */
-    .favorite-btn.is-favorited .star-icon {
-      color: #FFD700; /* 登録後の金色 */
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    .player-panel.is-float .player-foot {
+      display: block;
+      max-height: 40vh;
+      overflow: auto;
+      border-top: 1px solid #eee;
     }
-
-    </style>
+    .player-panel.is-float .setlist .item {
+      padding: 10px 12px;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+    .player-panel.is-float .player-body {
+      aspect-ratio: 16/9;
+    }
+  }
+  .list-col {
+    grid-area: list;
+  }
+  .player-col {
+    grid-area: player;
+  }
+  /* お気に入りボタンのスタイル */
+  .favorite-btn {
+    all: unset;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 8px;
+  }
+  .star-icon {
+    font-size: 20px;
+    color: #ccc;
+    transition: color 0.2s ease;
+  }
+  .favorite-btn.is-favorited .star-icon {
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+</style>
 </head>
 <body>
   <header>
@@ -863,4 +1119,5 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
