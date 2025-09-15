@@ -291,7 +291,7 @@
 
     const pad = n => String(n).padStart(2,'0');
     const ymdToDots = ymd => { const [y,m,d] = (ymd||'').split('-'); return y?`${y}.${pad(m)}.${pad(d)}`:''; };
-
+    const FAVORITES_KEY = 'favorites';
     function fillSearch(text){ if(!text) return; $q.value=text; applyFilter(); }
 
     function toSeconds(v){
@@ -855,5 +855,6 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
