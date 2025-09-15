@@ -1047,7 +1047,7 @@
       { "title": "キューティーハニー", "artist": "倖田來未", "start":1380  },
       { "title": "花の名", "artist": "BUMP OF CHICKEN", "start":1615  }
     ],
-    "youtubeId": "",
+    "youtubeId": "NF7Bg5sgY3Q",
     "tags": ["カバー(ソロ)"]
   },
   {
@@ -1778,7 +1778,7 @@
   "songs": [
     { "title": "ロケット団よ永遠に", "artist": "ロケット団(ムサシ・コジロウ・ニャース)【ポケットモンスター】" }
   ],
-  "youtubeId": "/WLgcl9EiRVg",
+  "youtubeId": "WLgcl9EiRVg",
   "tags": ["カバー(ユニット)"]
 },
 {
@@ -2087,7 +2087,7 @@
   "songs": [
     { "title": "桜坂", "artist": "福山雅治" }
   ],
-  "youtubeId": "twyjQCDtrNgReXvC",
+  "youtubeId": "CQCQS3RDMsY",
   "tags": ["カバー(ソロ)"]
 },
 {
@@ -2498,7 +2498,7 @@
   "songs": [
     { "title": "Bling-Bang-Bang-Born", "artist": "Creepy Nuts" }
   ],
-  "youtubeId": "/Jw66lhe3gYY",
+  "youtubeId": "Jw66lhe3gYY",
   "tags": ["カバー(ソロ)"]
 },
 {
@@ -2543,7 +2543,7 @@
   "songs": [
     { "title": "プリンとマフィンのポムポムビート☆", "artist": "ポムポムプリン" }
   ],
-  "youtubeId": "EdUMZWB2lr",
+  "youtubeId": "EdUMZWB2lrI",
   "tags": ["カバー(ソロ)"]
 },
 {
@@ -2615,7 +2615,7 @@
   "songs": [
     { "title": "BUBBLE DANCE", "artist": "@puppetsunsun" }
   ],
-  "youtubeId": "FElFAIEgqj4",
+  "youtubeId": "j7WdBF-BHXQ",
   "tags": ["カバー(ソロ)"]
 },
 {
@@ -2808,12 +2808,12 @@
   "tags": ["カバー(ソロ)"]
 },
 {
-  "title": "【【練習】Kawaii Kaiwai/PiKi【長尾景/にじさんじ】【踊ってみた】#PiKi #kawaiikaiwai",
+  "title": "【練習】Kawaii Kaiwai/PiKi【長尾景/にじさんじ】【踊ってみた】#PiKi #kawaiikaiwai",
   "date": " 2025-08-12",
   "songs": [
     { "title": "Kawaii Kaiwai", "artist": "PiKi" }
   ],
-  "youtubeId": "jInM8z2Avp",
+  "youtubeId": "jInM8z2AvpI",
   "tags": ["カバー(ソロ)"]
 },
 {
@@ -2899,6 +2899,7 @@
 }
 
 ]
+
 
 
 
