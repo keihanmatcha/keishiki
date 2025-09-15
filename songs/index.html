@@ -409,6 +409,8 @@
 }
     // ===== タグフィルタ UI =====
 function renderFilterTags(){
+  console.log('お気に入りリストの長さ:', favorites.length);
+  console.log('お気に入りボタンの表示設定:', favorites.length > 0);
   // ★ボタンを制御
   const favorites = getFavorites();
   $filterFavorites.style.display = favorites.length > 0 ? '' : 'none';
@@ -855,6 +857,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
