@@ -513,7 +513,14 @@ function renderSetlist(video, currentId, currentTime) {
     item.className = 'set-item' + (song.start === currentTime ? ' active' : '');
     item.innerHTML = `<div class="set-title"><span class="set-song">${song.title}</span><span class="set-artist">${song.artist}</span></div><div class="set-time">${hms(song.start)}</div>`;
     item.addEventListener('click', () => {
-      playFrom({ youtubeId: currentId, start: song.start, videoTitle: video.title, date: video.date });
+      // playFrom関数に正しい引数を渡すように修正
+      const songInfo = {
+        youtubeId: currentId,
+        start: song.start,
+        videoTitle: video.title,
+        date: video.date
+      };
+      playFrom(songInfo);
     });
     $setlist.appendChild(item);
   });
@@ -891,6 +898,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
