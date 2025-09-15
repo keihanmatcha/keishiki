@@ -341,6 +341,55 @@
 
     let player=null, apiReady=false;
     window.onYouTubeIframeAPIReady = ()=>{ apiReady = true; };
+   // toSeconds関数の下あたりに以下のコードを追加
+
+// ===== プレイヤー制御関数 =====
+function playFrom(r) {
+  const id = r.youtubeId;
+  const start = toSeconds(r.start);
+  const video = VIDEO_MAP.get(id) || { songs: [], tags: [], channel: '', title: r.videoTitle };
+
+  // 再生パネルの更新
+  const $title = document.getElementById('playerTitle');
+  const $meta = document.getElementById('playerMeta');
+  const $open = document.getElementById('openYT');
+  const $warnLink = document.getElementById('warnLink');
+
+  $title.textContent = `${r.videoTitle}${start ? `（${hms(start)}〜）` : ''}`;
+  $meta.textContent = `${ymdToDots(r.date)} / ${video.channel || ''}`;
+  const openUrl = `https://www.youtube.com/watch?v=${id}&t=${start || 0}s`;
+  $open.href = openUrl;
+  $warnLink.href = openUrl;
+
+  // セットリスト描画＆再生
+  renderSetlist(video, id, start || 0);
+  loadVideo(id, start || 0);
+
+  // パネル表示と追従UI
+  const $panel = document.getElementById('playerPanel');
+  $panel.style.display = 'block';
+  updateFloatOnPlay();
+  $panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ===== リスト描画 =====
+function renderRows(rows){
+  const $list = document.getElementById('list');
+  const $empty = document.getElementById('empty');
+  $list.innerHTML = '';
+  if(!rows.length){
+    $empty.style.display = 'block';
+    return;
+  }
+  $empty.style.display = 'none';
+
+  for(const r of rows){
+    const div = document.createElement('div');
+    div.className = 'row';
+    // ... (以下、元のコード) ...
+  }
+}
+    
     function loadVideo(id, start=0){
       $warn.style.display='none';
       const startSec = toSeconds(start);
@@ -898,6 +947,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
