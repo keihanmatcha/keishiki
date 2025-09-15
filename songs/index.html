@@ -462,51 +462,21 @@ function saveFavorites(favorites) {
     // スクロール（必要なければ消してOK）
     $panel.scrollIntoView({behavior:'smooth', block:'nearest'});
   }
+for(const r of rows){
+  const div = document.createElement('div');
+  div.className = 'row';
 
-  for(const r of rows){
-    const div = document.createElement('div');
-    // renderRows内のforループの中に追加するコード
-
-// お気に入りボタンと曲のキーを取得
-const favBtn = div.querySelector('.favorite-btn');
-const songKey = div.querySelector('.songcell').dataset.songKey;
-
-// ページ読み込み時、すでにお気に入り登録されているか確認
-if (getFavorites().includes(songKey)) {
-  favBtn.classList.add('is-favorited');
-}
-
-// ボタンのクリックイベントを追加
-favBtn.addEventListener('click', (e) => {
-  e.stopPropagation(); // 行全体のクリックイベントが発火しないようにする
-  
-  const currentFavorites = getFavorites();
-  const index = currentFavorites.indexOf(songKey);
-  
-  if (index > -1) {
-    // お気に入りに含まれていれば削除
-    currentFavorites.splice(index, 1);
-    favBtn.classList.remove('is-favorited');
-  } else {
-    // お気に入りに含まれていなければ追加
-    currentFavorites.push(songKey);
-    favBtn.classList.add('is-favorited');
-  }
-  
-  saveFavorites(currentFavorites);
-});
-    div.className = 'row';
-    // renderRows関数内のdiv.innerHTMLを以下のように修正
-    div.innerHTML = `
+  // 1. まず、innerHTMLでHTMLの要素をすべて作成
+  div.innerHTML = `
     <div class="songcell" data-song-key="${r.youtubeId}-${r.start}">
-    <div class="songtitle ellipsis">
-      <span class="note">🎵</span>
-      <span class="song link">${r.song}</span>
-      <button class="favorite-btn" aria-label="お気に入りに追加/削除">
-        <span class="star-icon">☆</span>
-      </button>
-    </div>
-    <div class="artist ellipsis"><span class="artist link">${r.artist||''}</span></div>
+      <div class="songtitle ellipsis">
+        <span class="note">🎵</span>
+        <span class="song link">${r.song}</span>
+        <button class="favorite-btn" aria-label="お気に入りに追加/削除">
+          <span class="star-icon">☆</span>
+        </button>
+      </div>
+      <div class="artist ellipsis"><span class="artist link">${r.artist||''}</span></div>
     </div>
     <div class="date">${ymdToDots(r.date)}</div>
     <div class="videotitle">
@@ -517,12 +487,43 @@ favBtn.addEventListener('click', (e) => {
         </div>
         <div class="tags-row"></div>
       </div>`;
+  
+  // 2. 次に、作成されたHTMLの中から要素を取得してイベントリスナーを設定
+  const favBtn = div.querySelector('.favorite-btn');
+  const songKey = div.querySelector('.songcell').dataset.songKey;
+
+  // ページ読み込み時、すでにお気に入り登録されているか確認
+  if (getFavorites().includes(songKey)) {
+    favBtn.classList.add('is-favorited');
+  }
+
+  // ボタンのクリックイベントを追加
+  favBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // 行全体のクリックイベントが発火しないようにする
+    
+    const currentFavorites = getFavorites();
+    const index = currentFavorites.indexOf(songKey);
+    
+    if (index > -1) {
+      currentFavorites.splice(index, 1);
+      favBtn.classList.remove('is-favorited');
+    } else {
+      currentFavorites.push(songKey);
+      favBtn.classList.add('is-favorited');
+    }
+    
+    saveFavorites(currentFavorites);
+  });
+  
 
     // --- 曲名／アーティストは「検索」：行クリックを止める ---
     const songEl   = div.querySelector('.song');
     const artistEl = div.querySelector('.artist');
     songEl.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(r.song); });
     artistEl.addEventListener('click', (e)=>{ e.stopPropagation(); if(r.artist) fillSearch(r.artist); });
+     $list.appendChild(div);
+}
+
 
     // --- タグは「検索」：行クリックを止める ---
     const rowTagBox = div.querySelector('.tags-row');
@@ -826,6 +827,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
