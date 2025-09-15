@@ -70,6 +70,37 @@
     .tag{font-size:11px;line-height:1;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#374151;cursor:pointer}
     .tag:hover{border-color:var(--accent);color:var(--accent)}
     /* 動画タイトルブロック：タイトルとタグの距離を空ける */
+    /* ===== モバイル時の行レイアウト改善 ===== */
+@media (max-width: 720px) {
+  .row {
+    grid-template-columns: 1fr; /* 1列のグリッドにする */
+    gap: 0;
+    align-items: flex-start;
+  }
+  .songcell {
+    order: 1; /* 曲名・アーティストを最初に配置 */
+    width: 100%;
+  }
+  .songtitle {
+    font-size: 18px; /* 曲名を大きくする */
+  }
+  .artist {
+    font-size: 14px; /* アーティスト名を大きくする */
+    margin-top: 4px;
+  }
+  .date {
+    order: 2; /* 日付を2番目に配置 */
+    justify-self: flex-start;
+    text-align: left;
+    margin-top: 8px;
+    font-size: 12px;
+  }
+  .videotitle {
+    order: 3; /* 動画タイトルとタグを3番目に配置 */
+    width: 100%;
+    margin-top: 8px;
+  }
+}
 .videotitle{
   display:flex; flex-direction:column; gap:8px;
 }
@@ -857,6 +888,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
