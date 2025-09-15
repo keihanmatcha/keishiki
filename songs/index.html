@@ -24,97 +24,89 @@
 <meta name="twitter:image" content="https://oukasui.com/images/ogp.png">
 
   <style>
-    :root{ --fg:#222; --muted:#6b7280; --accent:#625DA1; --bg:#fff; --border:#e5e7eb; --panel:#f8f8ff; }
-    html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
+    :root{ --fg:#222; --muted:#6b7280; --accent:#625DA1; --bg:#fff; --border:#e5e7eb; --panel:#f8f8ff; }
+    html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
 
-    header{position:sticky;top:0;background:#fffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--border)}
-    .wrap{max-width:1200px;margin-inline:auto;padding:14px 16px}
-    h1{margin:0 0 8px;font-size:20px}
-    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .searchbar{display:flex;gap:10px;align-items:center;flex:1}
-    .searchbar input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:16px}
+    header{position:sticky;top:0;background:#fffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1200px;margin-inline:auto;padding:14px 16px}
+    h1{margin:0 0 8px;font-size:20px}
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .searchbar{display:flex;gap:10px;align-items:center;flex:1}
+    .searchbar input{flex:1;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:16px}
 
-    /* タグフィルタ（グローバル） */
-    .filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .filterbar .label{font-size:12px;color:var(--muted)}
-    .filter-tags{display:flex;gap:8px;flex-wrap:wrap}
-    .chip-tag{font-size:12px;line-height:1;padding:8px 12px;border:1px solid #e5dfff;border-radius:999px;background:#f0ecff;color:#5b55a5;cursor:pointer}
-    .chip-tag:hover{filter:brightness(0.97)}
-    .chip-tag.active{background:var(--accent);border-color:var(--accent);color:#fff}
-    .chip-clear{font-size:12px;padding:6px 10px;border:1px dashed var(--border);border-radius:999px;background:#fff;color:#6b7280;cursor:pointer}
-    .chip-clear:hover{border-color:#c1c5e8;color:#4b5563}
+    /* タグフィルタ（グローバル） */
+    .filterbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .filterbar .label{font-size:12px;color:var(--muted)}
+    .filter-tags{display:flex;gap:8px;flex-wrap:wrap}
+    .chip-tag{font-size:12px;line-height:1;padding:8px 12px;border:1px solid #e5dfff;border-radius:999px;background:#f0ecff;color:#5b55a5;cursor:pointer}
+    .chip-tag:hover{filter:brightness(0.97)}
+    .chip-tag.active{background:var(--accent);border-color:var(--accent);color:#fff}
+    .chip-clear{font-size:12px;padding:6px 10px;border:1px dashed var(--border);border-radius:999px;background:#fff;color:#6b7280;cursor:pointer}
+    .chip-clear:hover{border-color:#c1c5e8;color:#4b5563}
 
-    /* 2カラム */
-    .grid{display:grid;gap:16px;align-items:start;grid-template-columns:1.2fr .8fr;grid-template-areas:"list player"}
-    .grid.player-left{grid-template-columns:.8fr 1.2fr;grid-template-areas:"player list"}
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr;grid-template-areas:"player" "list"} }
+    /* 2カラム */
+    .grid{display:grid;gap:16px;align-items:start;grid-template-columns:1.2fr .8fr;grid-template-areas:"list player"}
+    .grid.player-left{grid-template-columns:.8fr 1.2fr;grid-template-areas:"player list"}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr;grid-template-areas:"player" "list"} }
 
-    /* 行リスト */
-    .list{border:1px solid var(--border);border-radius:14px;overflow:hidden}
-    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
-    .row:nth-child(odd){background:#f6f6fb}
-    .row:first-child{border-top:none}
-    .songcell{display:flex;flex-direction:column}
-    .songtitle{font-weight:600;display:flex;gap:8px;align-items:center}
-    .songtitle .note{font-size:18px}
-    .artist{font-size:12px;color:var(--muted)}
-    .link{all:unset; cursor:pointer; color:inherit}
-    .link:hover{color:var(--accent); text-decoration:underline}
-    .link.artist{color:var(--muted)}
-    .date{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:#374151;justify-self:end;text-align:right;width:120px}
-    .videotitle{display:flex;flex-direction:column;gap:6px}
-    .videotitle button{all:unset;cursor:pointer;color:#111}
-    .videotitle button:hover{color:var(--accent);text-decoration:underline}
-    .ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .tags-row{display:flex;gap:6px;flex-wrap:wrap}
-    .tag{font-size:11px;line-height:1;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#374151;cursor:pointer}
-    .tag:hover{border-color:var(--accent);color:var(--accent)}
+    /* 行リスト */
+    .list{border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
+    .row:nth-child(odd){background:#f6f6fb}
+    .row:first-child{border-top:none}
+    .songcell{display:flex;flex-direction:column}
+    .songtitle{font-weight:600;display:flex;gap:8px;align-items:center}
+    .songtitle .note{font-size:18px}
+    .artist{font-size:12px;color:var(--muted)}
+    .link{all:unset; cursor:pointer; color:inherit}
+    .link:hover{color:var(--accent); text-decoration:underline}
+    .link.artist{color:var(--muted)}
+    .date{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:#374151;justify-self:end;text-align:right;width:120px}
+    .videotitle{display:flex;flex-direction:column;gap:6px}
+    .videotitle button{all:unset;cursor:pointer;color:#111}
+    .videotitle button:hover{color:var(--accent);text-decoration:underline}
+    .ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tags-row{display:flex;gap:6px;flex-wrap:wrap}
+    .tag{font-size:11px;line-height:1;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#374151;cursor:pointer}
+    .tag:hover{border-color:var(--accent);color:var(--accent)}
 
-    /* ===== モバイル時の行レイアウト改善 ===== */
+    /* ===== モバイル時の行レイアウト改善 ===== */
     @media (max-width: 720px) {
       .row {
-        display: flex; /* Flexboxに変更 */
-        flex-direction: column; /* 縦に並べる */
+        display: flex;
+        flex-direction: column;
         align-items: flex-start;
         padding: 10px 14px;
-        gap: 8px;
-        border-top: 1px solid var(--border);
+        gap: 8px; /* 要素間の隙間を調整 */
       }
       .songcell {
-        order: 1;
+        order: 1; /* 曲名・アーティストを最初に配置 */
         width: 100%;
       }
       .songtitle {
-        font-size: 18px;
+        font-size: 18px; /* 曲名を大きく表示 */
         font-weight: 600;
       }
       .artist {
-        font-size: 14px;
+        font-size: 14px; /* アーティスト名を適切に表示 */
         margin-top: 4px;
       }
-      /* 新しい日付と動画タイトルのラッパー */
-      .date-video {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        order: 2; /* 2番目に表示 */
-      }
       .date {
+        order: 2; /* 日付を2番目に配置 */
         font-size: 12px;
         width: auto;
       }
       .videotitle {
-        width: auto; /* 幅を自動調整 */
+        order: 3; /* 動画タイトルを3番目に配置 */
+        width: 100%;
+        margin-top: 0;
+      }
+      /* 動画タイトルのボタン部分を省略表示 */
+      .videotitle .ellipsis {
+        width: 100%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        display: block;
-        order: 3; /* 3番目に表示 */
-        margin-top: 0;
-      }
-      .videotitle .ellipsis {
-        max-width: 150px; /* 動画タイトルの最大幅を設定して省略しやすくする */
       }
       .tags-row {
         order: 4; /* タグを一番下に配置 */
@@ -124,95 +116,94 @@
         display: none; /* タグの「タグ」ラベルを非表示に */
       }
     }
-    
-    .videotitle{
-      display:flex; flex-direction:column; gap:8px;
-    }
 
-    /* タグ行を“行”として明確化（左に薄いラベル、行全体の余白） */
-    .tags-row{
-      display:flex; flex-wrap:wrap; gap:8px;
-      align-items:center;
-      margin-top:2px;               /* タイトルとの距離を少しだけ */
-      padding-top:6px;              /* タグ行の上に呼吸 */
-      border-top:1px dashed var(--border);  /* タイトルとタグを区切る */
-    }
+    .videotitle{
+      display:flex; flex-direction:column; gap:8px;
+    }
 
-    /* タグ行のラベル（装飾）。必要なければコメントアウト可 */
-    .tags-row::before{
-      content:"タグ";
-      font-size:11px; color:var(--muted);
-      margin-right:4px; padding:2px 6px;
-      border:1px solid var(--border);
-      border-radius:999px; background:#fff;
-    }
+    /* タグ行を“行”として明確化（左に薄いラベル、行全体の余白） */
+    .tags-row{
+      display:flex; flex-wrap:wrap; gap:8px;
+      align-items:center;
+      margin-top:2px;               /* タイトルとの距離を少しだけ */
+      padding-top:6px;              /* タグ行の上に呼吸 */
+      border-top:1px dashed var(--border);  /* タイトルとタグを区切る */
+    }
 
-    /* タグの“ピル”スタイル */
-    .tag-badge{
-      appearance:none; border:0; cursor:pointer;
-      font-size:12px; line-height:1;
-      padding:8px 12px; border-radius:999px;
-      background:#f2efff;           /* 薄い紫の塗り */
-      color:#4c46a6;                 /* 文字色 */
-      border:1px solid #e5dfff;      /* 枠はさらに淡い紫 */
-      display:inline-flex; gap:6px; align-items:center;
-    }
+    /* タグ行のラベル（装飾）。必要なければコメントアウト可 */
+    .tags-row::before{
+      content:"タグ";
+      font-size:11px; color:var(--muted);
+      margin-right:4px; padding:2px 6px;
+      border:1px solid var(--border);
+      border-radius:999px; background:#fff;
+    }
 
-    /* ハッシュ # アイコン（疑似要素で付ける） */
-    .tag-badge::before{
-      content:"#";
-      font-weight:700; opacity:.6;
-    }
+    /* タグの“ピル”スタイル */
+    .tag-badge{
+      appearance:none; border:0; cursor:pointer;
+      font-size:12px; line-height:1;
+      padding:8px 12px; border-radius:999px;
+      background:#f2efff;           /* 薄い紫の塗り */
+      color:#4c46a6;                 /* 文字色 */
+      border:1px solid #e5dfff;      /* 枠はさらに淡い紫 */
+      display:inline-flex; gap:6px; align-items:center;
+    }
 
-    /* ホバー & アクティブ */
-    .tag-badge:hover{ filter:brightness(.97) }
-    .tag-badge:active{ transform: translateY(1px) }
+    /* ハッシュ # アイコン（疑似要素で付ける） */
+    .tag-badge::before{
+      content:"#";
+      font-weight:700; opacity:.6;
+    }
 
-    /* “選択中”を強めに見せたい場合（任意でJSから .active を付ける想定） */
-    .tag-badge.active{
-      background:var(--accent);
-      border-color:var(--accent);
-      color:#fff;
-      box-shadow:0 0 0 3px var(--ring);
-    }
+    /* ホバー & アクティブ */
+    .tag-badge:hover{ filter:brightness(.97) }
+    .tag-badge:active{ transform: translateY(1px) }
 
-    /* 以下のCSSを置き換える */
-    @media (max-width: 720px){ .row{grid-template-columns:1fr;align-items:start} .date{justify-self:start} .videotitle{margin-top:-4px} }
-    .nothing{color:var(--muted);text-align:center;padding:20px;border:1px dashed var(--border);border-radius:12px}
+    /* “選択中”を強めに見せたい場合（任意でJSから .active を付ける想定） */
+    .tag-badge.active{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:#fff;
+      box-shadow:0 0 0 3px var(--ring);
+    }
 
-    /* プレイヤー */
-    .player-panel{position:sticky;top:84px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--panel)}
+    @media (max-width: 720px){ .row{grid-template-columns:1fr;align-items:start} .date{justify-self:start} .videotitle{margin-top:-4px} }
+    .nothing{color:var(--muted);text-align:center;padding:20px;border:1px dashed var(--border);border-radius:12px}
+
+    /* プレイヤー */
+    .player-panel{position:sticky;top:84px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--panel)}
 /* 余白を詰めたい場合は上の top を調整。sticky なのでスクロールについてきます。*/
-    .player-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f0f1ff;border-bottom:1px solid var(--border)}
+    .player-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f0f1ff;border-bottom:1px solid var(--border)}
 
-    /* 既存のプレイヤーCSSのすぐ下あたりに追記 */
-    .player-head .drag-handle{
-        font-weight:700;
-        opacity:.5;
-        padding:0 6px;
-        border-radius:6px;
-    }
+    /* 既存のプレイヤーCSSのすぐ下あたりに追記 */
+    .player-head .drag-handle{
+        font-weight:700;
+        opacity:.5;
+        padding:0 6px;
+        border-radius:6px;
+    }
 .player-panel.is-float .player-head:active{
-  cursor: grabbing;
+  cursor: grabbing;
 }
 
-    .player-title{font-size:14px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .player-sub{font-size:12px;color:var(--muted)}
-    .player-body{position:relative;aspect-ratio:16/9;width:100%;background:#000}
-    .player-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-    .player-foot{padding:10px 14px;border-top:1px solid var(--border);background:#fff}
-    .meta-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
-    .setlist{max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;margin-top:8px}
-    .set-item{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-top:1px solid var(--border);background:#fafafa;cursor:pointer}
-    .set-item:first-child{border-top:none}
-    .set-item:hover{background:#f3f4ff}
-    .set-item.active{background:#e9ecff}
-    .set-title{display:flex;flex-direction:column}
-    .set-song{font-weight:600}
-    .set-artist{font-size:12px;color:var(--muted)}
-    .set-time{font-variant-numeric:tabular-nums;color:#374151;white-space:nowrap}
+    .player-title{font-size:14px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .player-sub{font-size:12px;color:var(--muted)}
+    .player-body{position:relative;aspect-ratio:16/9;width:100%;background:#000}
+    .player-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .player-foot{padding:10px 14px;border-top:1px solid var(--border);background:#fff}
+    .meta-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+    .setlist{max-height:420px;overflow:auto;border:1px solid var(--border);border-radius:10px;margin-top:8px}
+    .set-item{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-top:1px solid var(--border);background:#fafafa;cursor:pointer}
+    .set-item:first-child{border-top:none}
+    .set-item:hover{background:#f3f4ff}
+    .set-item.active{background:#e9ecff}
+    .set-title{display:flex;flex-direction:column}
+    .set-song{font-weight:600}
+    .set-artist{font-size:12px;color:var(--muted)}
+    .set-time{font-variant-numeric:tabular-nums;color:#374151;white-space:nowrap}
 
-    .warn{margin-top:8px;padding:10px 12px;color:#92400e;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px}
+    .warn{margin-top:8px;padding:10px 12px;color:#92400e;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px}
   /* ===== プレイヤー追従（デスクトップ）＆モバイル浮動プレイヤー ===== */
     /* デスクトップ：スクロール追従 */
     @media (min-width: 901px){
@@ -913,6 +904,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
