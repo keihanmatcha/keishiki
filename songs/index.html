@@ -879,7 +879,7 @@ function applyFilter(){
     }
     renderRows(filteredRows);
 }
-    fetch('videos_temp.json')
+    fetch('videos.json')
       .then(r => r.json())
       .then(videos => {
     // 動画タグの継承と全角カッコの修正（この部分はそのまま）
@@ -1119,6 +1119,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
