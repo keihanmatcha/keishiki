@@ -468,6 +468,7 @@ function saveFavorites(favorites) {
 }
   
     // ===== リスト描画 =====
+// ===== リスト描画 =====
 function renderRows(rows){
   $list.innerHTML='';
   if(!rows.length){ $empty.style.display='block'; return; }
@@ -496,53 +497,11 @@ function renderRows(rows){
     $panel.scrollIntoView({behavior:'smooth', block:'nearest'});
   }
 
-  // 修正後のrenderRows関数（forループ内のみ抜粋）
-// ===== リスト描画 =====
-function renderRows(rows) {
-    $list.innerHTML = '';
-    if (!rows.length) {
-        $empty.style.display = 'block';
-        return;
-    }
-    $empty.style.display = 'none';
+  for(const r of rows){
+    const div = document.createElement('div');
+    div.className = 'row';
 
-    // 行データ r から「パネル更新＋再生」を実行するヘルパー
-    function playFrom(r) {
-        const id = r.youtubeId;
-        const start = toSeconds(r.start);
-        const video = VIDEO_MAP.get(id) || {
-            songs: [],
-            tags: [],
-            channel: '',
-            title: r.videoTitle
-        };
-
-        // 再生パネルの更新
-        $title.textContent = `${r.videoTitle}${start ? `（${hms(start)}〜）` : ''}`;
-        $meta.textContent = `${ymdToDots(r.date)} / ${video.channel || ''}`;
-        const openUrl = `https://www.youtube.com/watch?v=${id}&t=${start||0}s`;
-        $open.href = openUrl;
-        $warnLink.href = openUrl;
-
-        // セットリスト描画＆再生
-        renderSetlist(video, id, start || 0);
-        loadVideo(id, start || 0);
-
-        // パネル表示と追従UI
-        $panel.style.display = 'block';
-        updateFloatOnPlay();
-        $panel.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest'
-        });
-    }
-
-    for (const r of rows) {
-        const div = document.createElement('div');
-        div.className = 'row';
-
-        // 1. まず、innerHTMLでHTMLの要素をすべて作成
-        div.innerHTML = `
+    div.innerHTML = `
       <div class="songcell" data-song-key="${r.youtubeId}-${r.start}">
         <div class="songtitle ellipsis">
           <span class="note">🎵</span>
@@ -562,90 +521,65 @@ function renderRows(rows) {
           </div>
           <div class="tags-row"></div>
         </div>`;
+    
+    // イベントリスナーの設定をここで行う
+    const favBtn = div.querySelector('.favorite-btn');
+    const songKey = div.querySelector('.songcell').dataset.songKey;
 
-        // 2. 作成されたHTMLの中から要素を取得してイベントリスナーをすべて設定
-        const favBtn = div.querySelector('.favorite-btn');
-        const songKey = div.querySelector('.songcell').dataset.songKey;
-
-        if (getFavorites().includes(songKey)) {
-            favBtn.classList.add('is-favorited');
-        }
-
-        favBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const currentFavorites = getFavorites();
-            const index = currentFavorites.indexOf(songKey);
-
-            if (index > -1) {
-                currentFavorites.splice(index, 1);
-                favBtn.classList.remove('is-favorited');
-            } else {
-                currentFavorites.push(songKey);
-                favBtn.classList.add('is-favorited');
-            }
-            saveFavorites(currentFavorites);
-        });
-
-        const songEl = div.querySelector('.song');
-        const artistEl = div.querySelector('.artist');
-        songEl.addEventListener('click', (e) => {
-            e.stopPropagation();
-            fillSearch(r.song);
-        });
-        artistEl.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (r.artist) fillSearch(r.artist);
-        });
-
-        const rowTagBox = div.querySelector('.tags-row');
-        const tags = (r.tags && r.tags.length) ? r.tags : (VIDEO_MAP.get(r.youtubeId)?.tags || []);
-        tags.forEach(t => {
-            const b = document.createElement('button');
-            b.className = 'tag-badge';
-            b.type = 'button';
-            b.textContent = t;
-            b.addEventListener('click', (e) => {
-                e.stopPropagation();
-                fillSearch(t);
-            });
-            rowTagBox.appendChild(b);
-        });
-
-        const vtBtn = div.querySelector('.videotitle .videolink');
-        vtBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            playFrom(r);
-        });
-        vtBtn.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                playFrom(r);
-            }
-        });
-
-        const onRowPlay = (e) => {
-            if (e.target.closest('.song')) return;
-            if (e.target.closest('.artist')) return;
-            if (e.target.closest('.tag-badge')) return;
-            playFrom(r);
-        };
-        div.addEventListener('click', onRowPlay);
-        div.tabIndex = 0;
-        div.setAttribute('role', 'button');
-        div.setAttribute('aria-label', `${r.song} / ${r.artist||''} を再生`);
-        div.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onRowPlay(e);
-            }
-        });
-
-        // 最後に、完成した要素を一度だけリストに追加
-        $list.appendChild(div);
+    if (getFavorites().includes(songKey)) {
+      favBtn.classList.add('is-favorited');
     }
+
+    favBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const currentFavorites = getFavorites();
+      const index = currentFavorites.indexOf(songKey);
+      
+      if (index > -1) {
+        currentFavorites.splice(index, 1);
+        favBtn.classList.remove('is-favorited');
+      } else {
+        currentFavorites.push(songKey);
+        favBtn.classList.add('is-favorited');
+      }
+      saveFavorites(currentFavorites);
+    });
+
+    const songEl = div.querySelector('.song');
+    const artistEl = div.querySelector('.artist');
+    songEl.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(r.song); });
+    artistEl.addEventListener('click', (e)=>{ e.stopPropagation(); if(r.artist) fillSearch(r.artist); });
+
+    const rowTagBox = div.querySelector('.tags-row');
+    const tags = (r.tags && r.tags.length) ? r.tags : (VIDEO_MAP.get(r.youtubeId)?.tags || []);
+    tags.forEach(t=>{
+      const b = document.createElement('button');
+      b.className = 'tag-badge';
+      b.type = 'button';
+      b.textContent = t;
+      b.addEventListener('click', (e)=>{ e.stopPropagation(); fillSearch(t); });
+      rowTagBox.appendChild(b);
+    });
+
+    const vtBtn = div.querySelector('.videotitle .videolink');
+    vtBtn.addEventListener('click', (e)=>{ e.stopPropagation(); playFrom(r); });
+    vtBtn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); playFrom(r); }});
+
+    const onRowPlay = (e)=>{
+      if (e.target.closest('.song')) return;
+      if (e.target.closest('.artist')) return;
+      if (e.target.closest('.tag-badge')) return;
+      playFrom(r);
+    };
+    div.addEventListener('click', onRowPlay);
+    div.tabIndex = 0;
+    div.setAttribute('role','button');
+    div.setAttribute('aria-label', `${r.song} / ${r.artist||''} を再生`);
+    div.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); onRowPlay(e); }});
+
+    $list.appendChild(div);
+  }
 }
-    }
-
     // ===== フィルタ（検索テキスト＋タグ AND） =====
 function applyFilter(){
     let filteredRows;
@@ -904,6 +838,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
