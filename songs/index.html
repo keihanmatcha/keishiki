@@ -71,65 +71,76 @@
     .tag:hover{border-color:var(--accent);color:var(--accent)}
 
     /* ===== モバイル時の行レイアウト改善 ===== */
-    @media (max-width: 720px) {
-      .row {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 14px;
-        gap: 8px; /* 要素間の隙間を調整 */
-      }
-      .songcell {
-        order: 1; /* 曲名・アーティストを最初に配置 */
-        width: 100%;
-      }
-      .songtitle {
-        font-size: 18px; /* 曲名を大きく表示 */
-        font-weight: 600;
-      }
-      .artist {
-        font-size: 14px; /* アーティスト名を適切に表示 */
-        margin-top: 4px;
-      }
-      .date {
-        order: 2; /* 日付を2番目に配置 */
-        font-size: 12px;
-        width: auto;
-      }
-      .videotitle {
-        order: 3; /* 動画タイトルを3番目に配置 */
-        width: 100%;
-        margin-top: 0;
-      }
-      /* 動画タイトルのボタン部分を省略表示 */
-      .videotitle .ellipsis {
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .tags-row {
-        order: 4; /* タグを一番下に配置 */
-        margin-top: 0;
-      }
-      .tags-row::before {
-        display: none; /* タグの「タグ」ラベルを非表示に */
-      }
-    }
+   /* ===== モバイル時の行レイアウト改善 ===== */
+@media (max-width: 720px) {
+  /* 行全体のレイアウトを縦並びに変更 */
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 14px;
+    gap: 8px; /* 要素間の隙間を調整 */
+    border-top: 1px solid var(--border);
+  }
 
-    .videotitle{
-      display:flex; flex-direction:column; gap:8px;
-    }
+  /* 曲名とアーティスト名をまとめるブロック */
+  .songcell {
+    order: 1; /* 最初に表示 */
+    width: 100%;
+  }
 
-    /* タグ行を“行”として明確化（左に薄いラベル、行全体の余白） */
-    .tags-row{
-      display:flex; flex-wrap:wrap; gap:8px;
-      align-items:center;
-      margin-top:2px;               /* タイトルとの距離を少しだけ */
-      padding-top:6px;              /* タグ行の上に呼吸 */
-      border-top:1px dashed var(--border);  /* タイトルとタグを区切る */
-    }
+  /* 曲名を大きく、アーティスト名を小さく */
+  .songtitle {
+    font-size: 18px; /* 曲名を大きく表示 */
+    font-weight: 600;
+  }
+  .artist {
+    font-size: 14px; /* アーティスト名を適切に表示 */
+    margin-top: 4px;
+  }
+  
+  /* タグ行の表示を調整 */
+  .tags-row {
+    order: 2; /* 2番目に表示 */
+    margin-top: 0;
+  }
+  .tags-row::before {
+    display: none; /* タグの「タグ」ラベルを非表示に */
+  }
 
+  /* 日付と動画タイトルをまとめるブロック */
+  .date-video {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    order: 3; /* 3番目に表示 */
+  }
+
+  /* 日付のスタイルを調整 */
+  .date {
+    font-size: 12px;
+    width: auto;
+  }
+
+  /* 動画タイトルのスタイルを調整（省略表示） */
+  .videotitle {
+    width: 60%; /* 動画タイトルの幅を調整 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block; /* Flexboxの振る舞いを上書き */
+    order: 4; /* 4番目に表示 */
+    margin-top: 0;
+  }
+
+  /* その他のモバイル向け調整 */
+  .videotitle .ellipsis {
+    width: 100%;
+  }
+}
+
+    
     /* タグ行のラベル（装飾）。必要なければコメントアウト可 */
     .tags-row::before{
       content:"タグ";
@@ -904,6 +915,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
