@@ -229,7 +229,7 @@
     }
   .list-col{grid-area:list}
     .player-col{grid-area:player}
-  /* お気に入りボタンのスタイル */
+ /* お気に入りボタンのスタイル */
 .favorite-btn {
   /* ボタンのデフォルトスタイルをすべてリセット */
   all: unset;
@@ -238,6 +238,7 @@
   margin-left: 8px; /* 曲名からの間隔 */
 }
 
+/* 通常時の星アイコンのスタイル */
 .star-icon {
   font-size: 20px;
   color: #ccc; /* 通常時の灰色 */
@@ -248,7 +249,9 @@
 .favorite-btn.is-favorited .star-icon {
   color: #FFD700; /* 登録後の金色 */
   text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  content: "★"; /* 内側も金色にするために、疑似要素ではなく直接★を表示 */
 }
+
   </style>
 </head>
 <body>
@@ -888,6 +891,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
