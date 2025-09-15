@@ -462,7 +462,7 @@ function saveFavorites(favorites) {
     // スクロール（必要なければ消してOK）
     $panel.scrollIntoView({behavior:'smooth', block:'nearest'});
   }
-for(const r of rows){
+    for(const r of rows){
   const div = document.createElement('div');
   div.className = 'row';
 
@@ -492,14 +492,12 @@ for(const r of rows){
   const favBtn = div.querySelector('.favorite-btn');
   const songKey = div.querySelector('.songcell').dataset.songKey;
 
-  // ページ読み込み時、すでにお気に入り登録されているか確認
   if (getFavorites().includes(songKey)) {
     favBtn.classList.add('is-favorited');
   }
 
-  // ボタンのクリックイベントを追加
   favBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // 行全体のクリックイベントが発火しないようにする
+    e.stopPropagation();
     
     const currentFavorites = getFavorites();
     const index = currentFavorites.indexOf(songKey);
@@ -511,10 +509,9 @@ for(const r of rows){
       currentFavorites.push(songKey);
       favBtn.classList.add('is-favorited');
     }
+    
     saveFavorites(currentFavorites);
   });
-  
-
     // --- 曲名／アーティストは「検索」：行クリックを止める ---
     const songEl   = div.querySelector('.song');
     const artistEl = div.querySelector('.artist');
@@ -825,6 +822,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
