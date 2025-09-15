@@ -599,36 +599,37 @@ function applyFilter(){
     }
     renderRows(filteredRows);
 }
-fetch('videos.json')
-  .then(r => r.json())
-  .then(videos => {
-    // ここで動画タグを各曲に継承（曲にすでに tags があればそれを優先）
-    const videosWithSongTags = videos.map(v => ({
-      ...v,
-      songs: (v.songs || []).map(s => ({
-        ...s,
-        // 配列ならそのまま、未定義なら v.tags を継承、null/空は []
+    fetch('videos.json')
+      .then(r => r.json())
+      .then(videos => {
+    // 動画タグの継承と全角カッコの修正（この部分はそのまま）
+    　　const videosWithSongTags = videos.map(v => ({
+        ...v,
+     　 songs: (v.songs || []).map(s => ({
+         ...s,
         tags: Array.isArray(s.tags) ? s.tags
              : (Array.isArray(v.tags) ? v.tags : [])
-      }))
-    }));
+       }))
+      }));
 
-    // ついでに全角カッコの表記ゆれを吸収したい場合（任意）
     videosWithSongTags.forEach(v =>
       (v.songs||[]).forEach(s => {
         s.tags = (s.tags||[]).map(t => t.replace(/（/g,'(').replace(/）/g,')'));
       })
     );
 
-    // いつもの処理へ
+    // 改善点：ALL_ROWSの作成と描画を1つの処理としてまとめる
     buildRows(videosWithSongTags);
-    renderRows(ALL_ROWS);
+    applyFilter(); // 初期表示はお気に入りフィルターを含めて実行
   })
   .catch(err => {
     console.error(err);
     $empty.style.display='block';
     $empty.textContent='videos.json の読み込みに失敗しました。コンソールをご確認ください。';
   });
+
+
+  
 
 $q.addEventListener('keydown', e=>{ if(e.key==='Enter') applyFilter(); });
 $q.addEventListener('search', applyFilter);
@@ -838,6 +839,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
