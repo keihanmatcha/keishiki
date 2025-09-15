@@ -278,6 +278,9 @@
     const $grid = document.getElementById('grid');
     const $filterTags = document.getElementById('filterTags');
     const $clearTags = document.getElementById('clearTags');
+    // const $clearTags = document.getElementById('clearTags'); の下に追加
+    const $filterFavorites = document.getElementById('filterFavorites');
+    let filterByFavorites = false; // お気に入りで絞り込むかの状態を管理するフラグ
 
     const $panel = document.getElementById('playerPanel');
     const $yt = document.getElementById('ytFrame');
@@ -373,7 +376,7 @@
 
 
     let ALL_ROWS=[]; let VIDEO_MAP=new Map(); let ALL_TAGS=[]; const SELECTED_TAGS=new Set();
-    function buildRows(videos){
+  function buildRows(videos){
   const merged = normalizeVideos(videos);
   VIDEO_MAP = new Map(merged.map(v => [v.youtubeId, v]));
   ALL_ROWS = [];
@@ -407,23 +410,54 @@
   renderFilterTags();
 }
     // ===== タグフィルタ UI =====
-    function renderFilterTags(){
-      $filterTags.innerHTML='';
-      if(!ALL_TAGS.length){ $filterTags.parentElement.style.display='none'; $clearTags.style.display='none'; return; }
-      $filterTags.parentElement.style.display='';
-      for(const t of ALL_TAGS){
-        const b=document.createElement('button');
-        b.className='chip-tag'+(SELECTED_TAGS.has(t)?' active':'');
-        b.type='button'; b.textContent=t;
-        b.addEventListener('click', ()=>{ if(SELECTED_TAGS.has(t)) SELECTED_TAGS.delete(t); else SELECTED_TAGS.add(t); renderFilterTags(); applyFilter(); });
-        $filterTags.appendChild(b);
-      }
-      $clearTags.style.display = SELECTED_TAGS.size? 'inline-block':'none';
-    }
-    $clearTags.addEventListener('click', ()=>{ SELECTED_TAGS.clear(); renderFilterTags(); applyFilter(); });
+// renderFilterTags() 関数全体を以下の内容に置き換えてください。
+function renderFilterTags(){
+  // ★ボタンを制御
+  const favorites = getFavorites();
+  $filterFavorites.style.display = favorites.length > 0 ? '' : 'none';
+  $filterFavorites.classList.toggle('active', filterByFavorites);
+  
+  // 他のタグの描画
+  $filterTags.innerHTML='';
+  if(!ALL_TAGS.length && favorites.length === 0){ 
+      $filterTags.parentElement.style.display='none'; 
+      $clearTags.style.display='none'; 
+      return; 
+  }
+  $filterTags.parentElement.style.display='';
+  for(const t of ALL_TAGS){
+    const b=document.createElement('button');
+    b.className='chip-tag'+(SELECTED_TAGS.has(t)?' active':'');
+    b.type='button'; b.textContent=t;
+    b.addEventListener('click', ()=>{ 
+        filterByFavorites = false; // タグをクリックしたらお気に入り絞り込みを解除
+        if(SELECTED_TAGS.has(t)) SELECTED_TAGS.delete(t); 
+        else SELECTED_TAGS.add(t); 
+        renderFilterTags(); 
+        applyFilter(); 
+    });
+    $filterTags.appendChild(b);
+  }
+  
+  $clearTags.style.display = (SELECTED_TAGS.size > 0 || filterByFavorites) ? 'inline-block':'none';
+}
 
-  const FAVORITES_KEY = 'oukasui_favorites';
+// clearTagsのイベントリスナーも修正
+$clearTags.addEventListener('click', ()=>{ 
+    SELECTED_TAGS.clear(); 
+    filterByFavorites = false; // 全クリア時にお気に入りも解除
+    renderFilterTags(); 
+    applyFilter(); 
+});
 
+// 新しいお気に入りボタンのイベントリスナー
+$filterFavorites.addEventListener('click', ()=>{
+    filterByFavorites = !filterByFavorites; // 状態を反転
+    SELECTED_TAGS.clear(); // お気に入り絞り込み時は他のタグをクリア
+    renderFilterTags();
+    applyFilter();
+});
+    
 // お気に入りリストをlocalStorageから取得
 function getFavorites() {
   const favorites = localStorage.getItem(FAVORITES_KEY);
@@ -575,16 +609,24 @@ function saveFavorites(favorites) {
     }
 
     // ===== フィルタ（検索テキスト＋タグ AND） =====
-    function applyFilter(){
+function applyFilter(){
+    let filteredRows;
+    
+    if (filterByFavorites) {
+      const favorites = getFavorites();
+      filteredRows = ALL_ROWS.filter(r => favorites.includes(`${r.youtubeId}-${r.start}`));
+    } else {
+      // 既存の絞り込みロジック
       const q=($q.value||'').trim().toLowerCase();
       const selected=[...SELECTED_TAGS];
-      const rows = ALL_ROWS.filter(r=>{
+      filteredRows = ALL_ROWS.filter(r=>{
         const textOk = !q || r.song.toLowerCase().includes(q) || r.artist.toLowerCase().includes(q) || r.videoTitle.toLowerCase().includes(q) || (r.tagsText||'').toLowerCase().includes(q);
         const tagOk = !selected.length || selected.some(t => (r.tags||[]).includes(t));
         return textOk && tagOk;
       });
-      renderRows(rows);
     }
+    renderRows(filteredRows);
+}
 fetch('videos.json')
   .then(r => r.json())
   .then(videos => {
@@ -824,6 +866,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
