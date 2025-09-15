@@ -70,86 +70,68 @@
     .tag{font-size:11px;line-height:1;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#374151;cursor:pointer}
     .tag:hover{border-color:var(--accent);color:var(--accent)}
 
-    /* ===== モバイル時の行レイアウト改善 ===== */
-   /* ===== モバイル時の行レイアウト改善 ===== */
+/* ===== モバイル時の行レイアウト改善 ===== */
 @media (max-width: 720px) {
-  /* 行全体のレイアウトを縦並びに変更 */
+  /* 行リストの列設定をモバイル向けに上書き */
   .row {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 10px 14px;
-    gap: 8px; /* 要素間の隙間を調整 */
+    gap: 8px;
     border-top: 1px solid var(--border);
   }
-
+  
   /* 曲名とアーティスト名をまとめるブロック */
   .songcell {
-    order: 1; /* 最初に表示 */
+    order: 1;
     width: 100%;
+    padding-bottom: 4px;
   }
-
-  /* 曲名を大きく、アーティスト名を小さく */
   .songtitle {
-    font-size: 18px; /* 曲名を大きく表示 */
+    font-size: 16px;
     font-weight: 600;
   }
   .artist {
-    font-size: 14px; /* アーティスト名を適切に表示 */
-    margin-top: 4px;
+    font-size: 12px;
+    margin-top: 2px;
   }
   
-  /* タグ行の表示を調整 */
-  .tags-row {
-    order: 2; /* 2番目に表示 */
-    margin-top: 0;
-  }
-  .tags-row::before {
-    display: none; /* タグの「タグ」ラベルを非表示に */
-  }
-
   /* 日付と動画タイトルをまとめるブロック */
   .date-video {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start; /* 動画タイトルと日付を上揃えに */
     width: 100%;
-    order: 3; /* 3番目に表示 */
-  }
-
-  /* 日付のスタイルを調整 */
-  .date {
+    order: 2;
     font-size: 12px;
+    color: var(--muted);
+  }
+  .date {
+    font-variant-numeric: tabular-nums;
+    text-align: left;
     width: auto;
   }
-
-  /* 動画タイトルのスタイルを調整（省略表示） */
+  
+  /* 動画タイトルの表示調整 */
   .videotitle {
-    width: 60%; /* 動画タイトルの幅を調整 */
+    width: auto;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block; /* Flexboxの振る舞いを上書き */
-    order: 4; /* 4番目に表示 */
+    max-width: 60%; /* タイトルが長すぎても日付に干渉しないように */
+  }
+  
+  /* タグ行の表示調整 */
+  .tags-row {
+    order: 3;
     margin-top: 0;
   }
-
-  /* その他のモバイル向け調整 */
-  .videotitle .ellipsis {
-    width: 100%;
+  .tags-row::before {
+    display: none;
   }
 }
-
-    
-    /* タグ行のラベル（装飾）。必要なければコメントアウト可 */
-    .tags-row::before{
-      content:"タグ";
-      font-size:11px; color:var(--muted);
-      margin-right:4px; padding:2px 6px;
-      border:1px solid var(--border);
-      border-radius:999px; background:#fff;
-    }
-
     /* タグの“ピル”スタイル */
     .tag-badge{
       appearance:none; border:0; cursor:pointer;
@@ -915,6 +897,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
