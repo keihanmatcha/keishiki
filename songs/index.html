@@ -233,7 +233,6 @@
         <div class="filterbar">
           <span class="label">タグで絞り込み：</span>
           <div id="filterTags" class="filter-tags"></div>
-          <button id="clearTags" class="chip-clear" type="button" style="display:none">フィルター解除</button>
           <button id="filterFavorites" class="chip-tag" type="button" style="display:none">★ お気に入り</button>
           <button id="clearTags" class="chip-clear" type="button" style="display:none">フィルター解除</button>
         </div>
@@ -410,7 +409,6 @@
   renderFilterTags();
 }
     // ===== タグフィルタ UI =====
-// renderFilterTags() 関数全体を以下の内容に置き換えてください。
 function renderFilterTags(){
   // ★ボタンを制御
   const favorites = getFavorites();
@@ -470,13 +468,13 @@ function saveFavorites(favorites) {
 }
   
     // ===== リスト描画 =====
-  function renderRows(rows){
+function renderRows(rows){
   $list.innerHTML='';
   if(!rows.length){ $empty.style.display='block'; return; }
   $empty.style.display='none';
 
   // 行データ r から「パネル更新＋再生」を実行するヘルパー
-  function playFrom(r){
+function playFrom(r){
     const id = r.youtubeId;
     const start = toSeconds(r.start);
     const video = VIDEO_MAP.get(id) || { songs:[], tags:[], channel:'', title:r.videoTitle };
@@ -866,6 +864,7 @@ window.addEventListener('load', updateFloatPlayer);
   </script>
 </body>
 </html>
+
 
 
 
