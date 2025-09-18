@@ -4,27 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>曲リスト（videos.json 参照 / サイドプレイヤー＋セットリスト＋タグ複数フィルタ）</title>
-<link rel="icon" href="/images/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="/images/Nagao-icon.png" sizes="512x512">
-<link rel="apple-touch-icon" href="/images/Nagao-icon.png">
-<link rel="canonical" href="https://oukasui.com/songs/">
+    <link rel="icon" href="../images/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../images/Nagao-icon.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../images/Nagao-icon.png">
+  <link rel="canonical" href="https://oukasui.com/song/">
 
 <meta property="og:site_name" content="桜華水｜長尾景非公式ファンサイト　曲検索">
 <meta property="og:type" content="website">
-<meta property="og:title" content="曲検索 | 桜華水">
-<meta property="og:description" content="長尾景の曲データベースを曲名・アーティスト名・タグで検索できます。">
-<meta property="og:url" content="https://oukasui.com/song/">
+<meta property="og:title" content="桜華水｜長尾景非公式ファンサイト　曲検索">
+<meta property="og:description" content="長尾景の曲アーカイブを横断検索。曲名・アーティスト・動画タイトル・タグから素早く探せます。">
+<meta property="og:url" content="https://oukasui.com/">
 <meta property="og:image" content="https://oukasui.com/images/ogp.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="曲検索 | 桜華水">
-<meta name="twitter:description" content="長尾景の曲データベースを曲名・アーティスト名・タグで検索できます。">
+<meta name="twitter:title" content="桜華水｜長尾景非公式ファンサイト　曲検索">
+<meta name="twitter:description" content="長尾景の曲アーカイブを横断検索。曲名・アーティスト・動画タイトル・タグから素早く探せます。">
 <meta name="twitter:image" content="https://oukasui.com/images/ogp.png">
 
   <style>
-    :root{ --fg:#222; --muted:#6b7280; --accent:#625DA1; --bg:#fff; --border:#e5e7eb; --panel:#f8f8ff; }
+    :root{
+      --fg:#222;
+      --muted:#6b7280;
+      --accent:#625DA1;
+      --bg:#fff;
+      --border:#e5e7eb;
+      --panel:#f8f8ff;
+    }
     html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
 
     header{position:sticky;top:0;background:#fffcc;backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid var(--border)}
@@ -51,15 +58,8 @@
 
     /* 行リスト */
     .list{border:1px solid var(--border);border-radius:14px;overflow:hidden}
-    .row{
-      display:grid;
-      grid-template-columns:minmax(260px,1.5fr) 40px 120px minmax(0,2fr);
-      align-items:center;
-      gap:12px;
-      padding:10px 14px;
-      border-top:1px solid var(--border);
-      background:#fafafa;
-    }
+    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 40px 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
+    .videotitle{display:flex;flex-direction:column;gap:6px}
     .row:nth-child(odd){background:#f6f6fb}
     .row:first-child{border-top:none}
     .songcell{display:flex;flex-direction:column}
@@ -69,7 +69,7 @@
     .link{all:unset; cursor:pointer; color:inherit}
     .link:hover{color:var(--accent); text-decoration:underline}
     .link.artist{color:var(--muted)}
-    .date{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:#374151;justify-self:end;text-align:right;width:120px}
+    .date{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:#374151;justify-self:start;text-align:right;width:120px}
     .videotitle{display:flex;flex-direction:column;gap:6px}
     .videotitle button{all:unset;cursor:pointer;color:#111}
     .videotitle button:hover{color:var(--accent);text-decoration:underline}
@@ -389,29 +389,27 @@
         const div=document.createElement('div');
         div.className='row';
         div.innerHTML=`
-          <div class="songcell">
-            <div class="songtitle ellipsis">
-              <span class="note">🎵</span>
-              <button class="link song" type="button">${r.song}</button>
-              <button class="favorite-btn" aria-label="お気に入りに追加/削除">
-                <span class="star-icon">☆</span>
-              </button>
-            </div>
-            <div class="artist ellipsis">
-              <button class="link artist" type="button">${r.artist}</button>
-            </div>
-          </div>
-          <div class="date">${ymdToDots(r.date)}</div>
-          <div class="videotitle">
-            <div class="ellipsis">
-              <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}">
-                ${r.videoTitle}
-              </button>
-            </div>
-            <div class="tags-row"></div>
-          </div>
-        `;
-
+<div class="songcell">
+  <div class="song-meta">
+    <span class="note">🎵</span>
+    <button class="link song" type="button">${r.song}</button>
+    <button class="favorite-btn" aria-label="お気に入りに追加/削除">
+      <span class="star-icon">☆</span>
+    </button>
+  </div>
+  <div class="artist ellipsis">
+    <button class="link artist" type="button">${r.artist}</button>
+  </div>
+</div>
+<div class="date">${ymdToDots(r.date)}</div>
+<div class="videotitle">
+  <div class="ellipsis">
+    <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}">${r.videoTitle}</button>
+  </div>
+  <div class="tags-row"></div>
+</div>
+ </div>`;
+ 
         const favBtn = div.querySelector('.favorite-btn');
         if (getFavorites().includes(songKey)) {
             favBtn.classList.add('is-favorited');
