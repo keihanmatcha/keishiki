@@ -132,12 +132,7 @@
     grid-template-columns: 0.8fr 1.2fr;
     grid-template-areas: "player list";
   }
-  @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: 1fr;
-      grid-template-areas: "player" "list";
-    }
-  }
+ 
   /* 行リスト */
   .list {
     border: 1px solid var(--border);
@@ -266,18 +261,22 @@
     color: #fff;
     box-shadow: 0 0 0 3px var(--ring);
   }
-  @media (max-width: 720px) {
-    .row {
-      grid-template-columns: 1fr;
-      align-items: start;
-    }
-    .date {
-      justify-self: start;
-    }
-    .videotitle {
-      margin-top: -4px;
-    }
+  @media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "player" "list";
   }
+  .row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .date {
+    justify-self: start;
+  }
+  .videotitle {
+    margin-top: -4px;
+  }
+}
   .nothing {
     color: var(--muted);
     text-align: center;
