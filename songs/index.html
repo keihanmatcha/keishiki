@@ -482,21 +482,24 @@
     }
 
     // ===== フィルタ（検索テキスト＋タグ AND） =====
-    function applyFilter(){
-      let filteredRows;
-      if (filterByFavorites) {
-        const favorites = getFavorites();
-        filteredRows = ALL_ROWS.filter(r => favorites.includes(`${r.youtubeId}-${r.start}`));
-      } else {
-        const q = ($q.value || '').trim().toLowerCase();
-        const selected=[...SELECTED_TAGS];
-        const rows = ALL_ROWS.filter(r=>{
-        const textOk = !q || r.song.toLowerCase().includes(q) || r.artist.toLowerCase().includes(q) || r.videoTitle.toLowerCase().includes(q) || (r.tagsText||'').toLowerCase().includes(q);
-        const tagOk = !selected.length || selected.some(t => (r.tags||[]).includes(t));
-        return textOk && tagOk;
-      });
-      renderRows(rows);
-    }
+function applyFilter() {
+  let filteredRows;
+
+  if (filterByFavorites) {
+    const favorites = getFavorites();
+    filteredRows = ALL_ROWS.filter(r => favorites.includes(`${r.youtubeId}-${r.start}`));
+  } else {
+    const q = ($q.value || '').trim().toLowerCase();
+    const selected = [...SELECTED_TAGS];
+    filteredRows = ALL_ROWS.filter(r => {
+      const textOk = !q || r.song.toLowerCase().includes(q) || r.artist.toLowerCase().includes(q) || r.videoTitle.toLowerCase().includes(q) || (r.tagsText || '').toLowerCase().includes(q);
+      const tagOk = !selected.length || selected.some(t => (r.tags || []).includes(t));
+      return textOk && tagOk;
+    });
+  }
+
+  renderRows(filteredRows);
+}
     
     fetch('videos.json')
       .then(r=>r.json())
