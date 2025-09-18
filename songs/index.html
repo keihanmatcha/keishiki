@@ -398,6 +398,7 @@
       if(!rows.length){ $empty.style.display='block'; return; }
       $empty.style.display='none';
       for(const r of rows){
+        const songKey = `${r.youtubeId}-${r.start}`;
         const div=document.createElement('div');
         div.className='row';
         div.innerHTML=`
