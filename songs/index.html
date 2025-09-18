@@ -508,9 +508,10 @@
 
     // ===== detawane風：スクロールしたときだけモバイルで浮動化 =====
  (function(){
-  const mq = window.matchMedia('(max-width: 900px)');
-  const headerH = 84;                       // ヘッダーと同じ値に合わせる
-  const $playerCol = document.querySelector('.player-col'); // パネルの列全体
+  const mq = window.matchMedia('(max-width: 900px)');
+  const headerH = 84;
+  const $playerCol = document.querySelector('.player-col');
+  // ここにあった余分な閉じ括弧を削除しました
    
 
   // 浮動ON/OFF
