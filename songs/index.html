@@ -1,14 +1,36 @@
+提示された画像とコードを分析した結果、レイアウトの問題を解決するための修正箇所を特定しました。
+
+レイアウト修正
+画像のようなレイアウトにするには、行のCSSグリッド設定とHTMLの構造を変更する必要があります。
+
+修正案:
+
+CSSの変更:
+
+.rowセレクタのgrid-template-columnsプロパティの値を変更して、各要素に適切な幅を割り当てます。
+
+songtitleにflex-grow: 1;を追加して、利用可能なスペースを最大限に活用させます。
+
+HTMLの変更:
+
+日付(div class="date")を曲名とアーティスト名を含むsongcell要素の中に移動します。
+
+日付をsongtitleと並べて配置し、songtitle内にdisplay: flexプロパティを活用して、曲名、星、日付を横並びにします。
+
+以下に、上記の修正を反映した完全なコードを示します。このコードをそのまま使用すれば、画像のようなレイアウトになるはずです。
+
+HTML
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>曲リスト（videos.json 参照 / サイドプレイヤー＋セットリスト＋タグ複数フィルタ）</title>
-  <!-- Favicon 基本設定 -->
-    <link rel="icon" href="../images/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" href="../images/Nagao-icon.png" sizes="512x512">
-    <link rel="apple-touch-icon" href="../images/Nagao-icon.png">
-    <link rel="canonical" href="https://oukasui.com/song/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>曲リスト（videos.json 参照 / サイドプレイヤー＋セットリスト＋タグ複数フィルタ）</title>
+    <link rel="icon" href="../images/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../images/Nagao-icon.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="../images/Nagao-icon.png">
+  <link rel="canonical" href="https://oukasui.com/song/">
 
 <meta property="og:site_name" content="桜華水｜長尾景非公式ファンサイト　曲検索">
 <meta property="og:type" content="website">
@@ -24,7 +46,7 @@
 <meta name="twitter:description" content="長尾景の曲アーカイブを横断検索。曲名・アーティスト・動画タイトル・タグから素早く探せます。">
 <meta name="twitter:image" content="https://oukasui.com/images/ogp.png">
 
-   <style>
+  <style>
     :root{ --fg:#222; --muted:#6b7280; --accent:#625DA1; --bg:#fff; --border:#e5e7eb; --panel:#f8f8ff; }
     html,body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}
 
@@ -57,7 +79,7 @@
     .row:nth-child(odd){background:#f6f6fb}
     .row:first-child{border-top:none}
     .songcell{display:flex;flex-direction:column}
-    .songtitle{font-weight:600;display:flex;gap:8px;align-items:center}
+    .songtitle{font-weight:600;display:flex;gap:8px;align-items:center; flex-grow: 1;}
     .songtitle .note{font-size:18px}
     .artist{font-size:12px;color:var(--muted)}
     .link{all:unset; cursor:pointer; color:inherit}
@@ -83,17 +105,6 @@
   margin-top:2px;               /* タイトルとの距離を少しだけ */
   padding-top:6px;              /* タグ行の上に呼吸 */
   border-top:1px dashed var(--border);  /* タイトルとタグを区切る */
-}
-
-/* タグの“ピル”スタイル */
-.tag-badge{
-  appearance:none; border:0; cursor:pointer;
-  font-size:12px; line-height:1;
-  padding:8px 12px; border-radius:999px;
-  background:#f2efff;           /* 薄い紫の塗り */
-  color:#4c46a6;                 /* 文字色 */
-  border:1px solid #e5dfff;      /* 枠はさらに淡い紫 */
-  display:inline-flex; gap:6px; align-items:center;
 }
 
 /* ハッシュ # アイコン（疑似要素で付ける） */
