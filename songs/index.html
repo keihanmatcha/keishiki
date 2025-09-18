@@ -51,26 +51,136 @@
     @media (max-width: 900px){ .grid{grid-template-columns:1fr;grid-template-areas:"player" "list"} }
 
     /* 行リスト */
-    .list{border:1px solid var(--border);border-radius:14px;overflow:hidden}
-    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
-    .videotitle{display:flex;flex-direction:column;gap:6px}
-    .row:nth-child(odd){background:#f6f6fb}
-    .row:first-child{border-top:none}
-    .songcell{display:flex;flex-direction:column}
-    .songtitle{font-weight:600;display:flex;gap:8px;align-items:center}
-    .songtitle .note{font-size:18px}
-    .artist{font-size:12px;color:var(--muted)}
-    .link{all:unset; cursor:pointer; color:inherit}
-    .link:hover{color:var(--accent); text-decoration:underline}
-    .link.artist{color:var(--muted)}
-    .date{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:#374151;justify-self:end;text-align:right;width:120px}
-    .videotitle{display:flex;flex-direction:column;gap:6px}
-    .videotitle button{all:unset;cursor:pointer;color:#111}
-    .videotitle button:hover{color:var(--accent);text-decoration:underline}
-    .ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .tags-row{display:flex;gap:6px;flex-wrap:wrap}
-    .tag{font-size:11px;line-height:1;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:#374151;cursor:pointer}
-    .tag:hover{border-color:var(--accent);color:var(--accent)}
+    /* 行リスト */
+.list {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.5fr) 120px minmax(0, 2fr);
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+}
+
+.row:nth-child(odd) {
+  background: #f6f6fb;
+}
+
+.row:first-child {
+  border-top: none;
+}
+
+.songcell {
+  /* 縦に並べていたのを削除 */
+  /* display: flex; */
+  /* flex-direction: column; */
+}
+
+.songtitle {
+  font-weight: 600;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.songtitle .note {
+  font-size: 18px;
+}
+
+.artist {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.date {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  color: #374151;
+  justify-self: end;
+  text-align: right;
+  width: 120px;
+}
+
+.videotitle {
+  /* 縦に並べていたのを削除 */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* gap: 6px; */
+}
+
+.videotitle button {
+  all: unset;
+  cursor: pointer;
+  color: #111;
+}
+
+.videotitle button:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tags-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11px;
+  line-height: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+}
+
+.tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* 動画タイトルブロック：タイトルとタグを横並びに変更 */
+.videotitle {
+  display: flex;
+  align-items: center; /* 中央寄せ */
+  gap: 12px; /* タイトルとタグの間隔 */
+}
+
+/* タグ行のラベル（装飾）はそのまま */
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 2px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+}
+
+.tags-row::before {
+  content: "タグ";
+  font-size: 11px;
+  color: var(--muted);
+  margin-right: 4px;
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+}
     /* 動画タイトルブロック：タイトルとタグの距離を空ける */
 .videotitle{
   display:flex; flex-direction:column; gap:8px;
