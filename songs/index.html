@@ -383,14 +383,16 @@
         div.className='row';
         div.innerHTML=`
           <div class="songcell">
-            <div class="songtitle ellipsis"><span class="note">🎵</span><button class="link song" type="button">${r.song}</button></div>
+            <div class="songtitle ellipsis">
+            <span class="note">🎵</span>
+            <button class="link song" type="button">${r.song}</button>
+            <button class="favorite-btn" aria-label="お気に入りに追加/削除">
+            <span class="star-icon">☆</span>
+            </button>
+            </div>
             <div class="artist ellipsis">
             <button class="link artist" type="button">${r.artist}</button>
-            <button class="favorite-btn" aria-label="お気に入りに追加/削除">
-                <span class="star-icon">☆</span>
-              </button>
-
-          </div>
+            </div>
           <div class="date">${ymdToDots(r.date)}</div>
           <div class="videotitle">
             <div class="ellipsis"><button type="button" data-id="${r.youtubeId}" data-start="${r.start}" data-title="${r.videoTitle.replace(/"/g,'&quot;')}" data-date="${r.date}">${r.videoTitle}</button></div>
