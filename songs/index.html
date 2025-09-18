@@ -785,7 +785,7 @@ function renderRows(rows){
       <div class="songcell" data-song-key="${r.youtubeId}-${r.start}">
         <div class="songtitle ellipsis">
           <span class="note">🎵</span>
-          <span class="song link">${r.song}</span>
+          <span class="song link">${r.song || '（曲名なし）'}</span>
           <button class="favorite-btn" aria-label="お気に入りに追加/削除">
             <span class="star-icon">☆</span>
           </button>
@@ -796,7 +796,7 @@ function renderRows(rows){
       <div class="videotitle">
           <div class="ellipsis">
             <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}">
-              ${r.videoTitle}
+            ${r.videoTitle || '（動画タイトルなし）'}
             </button>
           </div>
           <div class="tags-row"></div>
