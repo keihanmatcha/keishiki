@@ -206,6 +206,25 @@
    }
    .list-col{grid-area:list}
    .player-col{grid-area:player}
+   /* セットリストの行をタッチしやすく */
+  .player-panel.is-float .setlist .item {
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  /* その他のプレイヤー追従・レイアウトに関するスタイル */
+  .player-panel.is-float .player-body {
+    aspect-ratio: 16/9;
+  }
+
+  .list-col {
+    grid-area: list;
+  }
+  
+  .player-col {
+    grid-area: player;
+  }
   </style>
  </head>
  <body>
