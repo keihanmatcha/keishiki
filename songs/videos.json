@@ -697,11 +697,11 @@
       { "title": "愛のかたまり", "artist": "Kinki Kids", "start":4030  },
       { "title": "AM11:00", "artist": "HY", "start":4335  }
     ],
-    "youtubeId": "g_XpbXqEsxpzW9As",
+    "youtubeId": "nMaahBlnSgc",
     "tags": ["カバー(ソロ)"]
   },
   {
-    "title": "<【#にじFes2021】にじさんじ Anniversary Festival 2021 公式無料生放送【DAY2】>",
+    "title": "【#にじFes2021】にじさんじ Anniversary Festival 2021 公式無料生放送【DAY2】",
     "date": "2021-04-03",
     "songs": [
       { "title": "浮世の演舞", "artist": "VΔLZ", "start":15550  }
@@ -1222,7 +1222,7 @@
   },
   {
     "title": "VΔLZ LIVE TOUR 2024『三華の樂』【横浜公演】",
-    "date": "2020-05-27",
+    "date": "2024-05-27",
     "songs": [
       { "title": "黎明の轍", "artist": "VΔLZ", "start":1602  },
       { "title": "青春応歌", "artist": "VΔLZ", "start":1808  },
@@ -2899,6 +2899,7 @@
 }
 
 ]
+
 
 
 
