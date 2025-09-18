@@ -388,7 +388,7 @@
         b.addEventListener('click', ()=>{filterByFavorites = false; if(SELECTED_TAGS.has(t)) SELECTED_TAGS.delete(t); else SELECTED_TAGS.add(t); renderFilterTags(); applyFilter(); });
         $filterTags.appendChild(b);
       }
-      $clearTags.style.display = SELECTED_TAGS.size > 0 || filterByFavorites) ? 'inline-block' : 'none';
+      $clearTags.style.display = (SELECTED_TAGS.size > 0 || filterByFavorites) ? 'inline-block' : 'none';
     }
     $clearTags.addEventListener('click', ()=>{ SELECTED_TAGS.clear(); filterByFavorites = false; renderFilterTags(); applyFilter(); });
 
