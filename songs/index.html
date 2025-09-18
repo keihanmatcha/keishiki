@@ -140,14 +140,15 @@
     overflow: hidden;
   }
   .row {
-    display: grid;
-    grid-template-columns: minmax(260px, 1.5fr) 120px minmax(0, 2fr);
-    align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
-    border-top: 1px solid var(--border);
-    background: #fafafa;
-  }
+  display: grid;
+  grid-template-columns: minmax(200px, 1.5fr) 120px minmax(0, 2fr); /* minmax(260px, 1.5fr) を minmax(200px, 1.5fr) に変更 */
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+}
+
   .row:nth-child(odd) {
     background: #f6f6fb;
   }
@@ -269,6 +270,7 @@
   .row {
     grid-template-columns: 1fr;
     align-items: start;
+    gap: 8px; /* ギャップを少し狭める */
   }
   .date {
     justify-self: start;
