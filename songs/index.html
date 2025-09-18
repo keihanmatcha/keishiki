@@ -51,7 +51,7 @@
 
     /* 行リスト */
     .list{border:1px solid var(--border);border-radius:14px;overflow:hidden}
-    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
+    .row{display:grid;grid-template-columns:minmax(260px,1.5fr) 40px 120px minmax(0,2fr);align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--border);background:#fafafa}
     .videotitle{display:flex;flex-direction:column;gap:6px}
     .row:nth-child(odd){background:#f6f6fb}
     .row:first-child{border-top:none}
@@ -383,15 +383,18 @@
         div.className='row';
         div.innerHTML=`
           <div class="songcell">
-            <div class="songtitle ellipsis">
-            <span class="note">🎵</span>
-            <button class="link song" type="button">${r.song}</button>
+          　<div class="songtitle ellipsis">
+          　　<span class="note">🎵</span>
+            　<button class="link song" type="button">${r.song}</button>
+            </div>
+            <div class="artist ellipsis">
+    　　　　　　<button class="link artist" type="button">${r.artist}</button>
+  　　　　　 </div>
+          </div>
+          <div class="fav-cell">
             <button class="favorite-btn" aria-label="お気に入りに追加/削除">
             <span class="star-icon">☆</span>
             </button>
-            </div>
-            <div class="artist ellipsis">
-            <button class="link artist" type="button">${r.artist}</button>
             </div>
           <div class="date">${ymdToDots(r.date)}</div>
           <div class="videotitle">
