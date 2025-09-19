@@ -399,76 +399,88 @@
 
    // ===== リスト描画 =====
    function renderRows(rows){
-     $list.innerHTML='';
-     if(!rows.length){ $empty.style.display='block'; return; }
-     $empty.style.display='none';
-     for(const r of rows){
-       const songKey = `${r.youtubeId}-${r.start}`;
-       const div=document.createElement('div');
-       div.className='row';
-       div.innerHTML=`
- <div class="songcell">
+    $list.innerHTML='';
+    if(!rows.length){ $empty.style.display='block'; return; }
+    $empty.style.display='none';
+    for(const r of rows){
+        const songKey = `${r.youtubeId}-${r.start}`;
+        const div=document.createElement('div');
+        div.className='row';
+        div.innerHTML=`
+<div class="songcell">
   <div class="song-meta">
-   <span class="note">🎵</span>
-   <button class="link song" type="button">${r.song}</button>
-   <button class="favorite-btn" aria-label="お気に入りに追加/削除">
-     <span class="star-icon">☆</span>
-   </button>
+    <span class="note">🎵</span>
+    <button class="link song" type="button">${r.song}</button>
+    <button class="favorite-btn" aria-label="お気に入りに追加/削除">
+      <span class="star-icon">☆</span>
+    </button>
   </div>
   <div class="artist ellipsis">
-   <button class="link artist" type="button">${r.artist}</button>
+    <button class="link artist" type="button">${r.artist}</button>
   </div>
- </div>
- <div class="date">${ymdToDots(r.date)}</div>
- <div class="videotitle">
+</div>
+<div class="date">${ymdToDots(r.date)}</div>
+<div class="videotitle">
   <div class="ellipsis">
-   <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}" data-title="${r.videoTitle.replace(/"/g, '&quot;')}" data-date="${r.date}">${r.videoTitle}</button>
+    <button type="button" class="videolink" data-id="${r.youtubeId}" data-start="${r.start||''}" data-title="${r.videoTitle.replace(/"/g, '&quot;')}" data-date="${r.date}">${r.videoTitle}</button>
   </div>
   <div class="tags-row"></div>
- </div>`;
+</div>`;
 
-       const favBtn = div.querySelector('.favorite-btn');
-       if (getFavorites().includes(songKey)) {
-           favBtn.classList.add('is-favorited');
-       }
-       favBtn.addEventListener('click', (e) => {
-           e.stopPropagation();
-           const currentFavorites = getFavorites();
-           const index = currentFavorites.indexOf(songKey);
-           if (index > -1) {
-               currentFavorites.splice(index, 1);
-               favBtn.classList.remove('is-favorited');
-           } else {
-               currentFavorites.push(songKey);
-               favBtn.classList.add('is-favorited');
-           }
-           saveFavorites(currentFavorites);
-           if (filterByFavorites) {
-               applyFilter();
-           }
-       });
+        const favBtn = div.querySelector('.favorite-btn');
+        if (getFavorites().includes(songKey)) {
+            favBtn.classList.add('is-favorited');
+        }
+        favBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const currentFavorites = getFavorites();
+            const index = currentFavorites.indexOf(songKey);
+            if (index > -1) {
+                currentFavorites.splice(index, 1);
+                favBtn.classList.remove('is-favorited');
+            } else {
+                currentFavorites.push(songKey);
+                favBtn.classList.add('is-favorited');
+            }
+            saveFavorites(currentFavorites);
+            if (filterByFavorites) {
+                applyFilter();
+            }
+        });
 
-       div.querySelector('.song').addEventListener('click', ()=> fillSearch(r.song));
-       div.querySelector('.artist').addEventListener('click', ()=> fillSearch(r.artist));
-       const rowTagBox = div.querySelector('.tags-row');
-       const tags = (VIDEO_MAP.get(r.youtubeId)?.tags)||r.tags||[];
-       tags.forEach(t=>{ const b=document.createElement('button'); b.className='tag-badge'; b.type='button'; b.textContent=t; b.addEventListener('click', ()=> fillSearch(t)); rowTagBox.appendChild(b); });
-       div.querySelector('.videotitle button').addEventListener('click', e=>{
-         const id=e.currentTarget.dataset.id; const start=e.currentTarget.dataset.start; const title=e.currentTarget.dataset.title; const date=e.currentTarget.dataset.date; const video=VIDEO_MAP.get(id)||{songs:[],tags:[]};
-         $title.textContent = `${title}${start?`（${hms(start)}〜）`:''}`;
-         $meta.textContent = `${ymdToDots(date)} / ${video.channel||''}`;
-         $open.href = `https://www.youtube.com/watch?v=${id}&t=${toSeconds(start)}s`;
-         $warnLink.href = $open.href;
-         renderSetlist(video, id, toSeconds(start));
-         loadVideo(id, start);
-         $panel.style.display='block';
-         updateFloatOnPlay();
-         $panel.scrollIntoView({behavior:'smooth', block:'nearest'});
-       });
-       $list.appendChild(div);
-     }
-   }
+        div.querySelector('.song').addEventListener('click', (e)=> { e.stopPropagation(); fillSearch(r.song); });
+        div.querySelector('.artist').addEventListener('click', (e)=> { e.stopPropagation(); fillSearch(r.artist); });
+        const rowTagBox = div.querySelector('.tags-row');
+        const tags = (VIDEO_MAP.get(r.youtubeId)?.tags)||r.tags||[];
+        tags.forEach(t=>{ const b=document.createElement('button'); b.className='tag-badge'; b.type='button'; b.textContent=t; b.addEventListener('click', (e)=> { e.stopPropagation(); fillSearch(t); }); rowTagBox.appendChild(b); });
+        
+        // 変更点：行全体をクリック可能にする
+        div.addEventListener('click', e => {
+            // クリックされた要素がボタン（またはその子要素）でないことを確認
+            const isButton = e.target.closest('button, .favorite-btn');
+            if (isButton) {
+                return; // ボタンがクリックされた場合は何もしない（各ボタンのイベントが実行される）
+            }
 
+            const id = r.youtubeId;
+            const start = r.start || '';
+            const title = r.videoTitle;
+            const date = r.date;
+            const video = VIDEO_MAP.get(id) || { songs: [], tags: [] };
+            $title.textContent = `${title}${start ? `（${hms(start)}〜）` : ''}`;
+            $meta.textContent = `${ymdToDots(date)} / ${video.channel || ''}`;
+            $open.href = `https://www.youtube.com/watch?v=${id}&t=${toSeconds(start)}s`;
+            $warnLink.href = $open.href;
+            renderSetlist(video, id, toSeconds(start));
+            loadVideo(id, start);
+            $panel.style.display = 'block';
+            updateFloatOnPlay();
+            $panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        $list.appendChild(div);
+    }
+}
    function renderSetlist(video, id, activeStart){
      $setlist.innerHTML='';
      for(const s of (video.songs||[])){
