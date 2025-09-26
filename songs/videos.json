@@ -1407,7 +1407,7 @@
     "date": "2022-03-19",
     "songs": [
       { "title": " 月光", "artist": "キタニタツヤ×はるまきごはん", "start":1331 },
-      { "title": " フェレス", "artist": "栗山夕璃 with #GABULI - Pheles‗Hatsune Miku＆MEIKO", "start":4738 }
+      { "title": " フェレス", "artist": "栗山夕璃/蜂屋ななし with #GABULI - Hatsune Miku＆MEIKO", "start":4738 }
     ],
     "youtubeId": "CBI-Ox7r0Jw",
     "tags": ["カバー(ユニット)"]
@@ -1986,7 +1986,7 @@
   "title": "フェレス ／covered by 白雪巴×ジョー・力一×長尾景×森中花咲",
   "date": "2024-05-25",
   "songs": [
-    { "title": "フェレス", "artist": "栗山夕璃 with #GABULI - Pheles‗Hatsune Miku＆MEIKO" }
+    { "title": "フェレス", "artist": "栗山夕璃/蜂屋ななし with #GABULI - Hatsune Miku＆MEIKO" }
   ],
   "youtubeId": "-rtjgOwBWnk",
   "tags": ["カバー(ユニット)"]
@@ -2927,6 +2927,7 @@
 }
 
 ]
+
 
 
 
