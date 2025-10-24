@@ -698,9 +698,9 @@
       { "title": "トレモロ", "artist": "RADWIMPS", "start":3740  },
       { "title": "A Whole New World(ホール・ニュー・ワールド)", "artist": "アラジン", "start":4200  },
       { "title": "フレンド・ライク・ミー", "artist": "アラジン", "start":4489  },
-      { "title": "あとひとつ", "artist": "FUNKY MONKEY BABAYS", "start":5125  },
-      { "title": "ちっぽけな勇気", "artist": "", "start":5469  },
-      { "title": "バクチ・ダンサー", "artist": "", "start":5764  },
+      { "title": "あとひとつ", "artist": "FUNKY MONKEY BΛBY'S", "start":5125  },
+      { "title": "ちっぽけな勇気", "artist": "FUNKY MONKEY BΛBY'S", "start":5469  },
+      { "title": "バクチ・ダンサー", "artist": "DOES", "start":5764  },
       { "title": "曇天", "artist": "DOES", "start":5950  },
       { "title": "雫", "artist": "スキマスイッチ", "start":6232  },
       { "title": "エバ", "artist": "柊キライ", "start":6854  }
@@ -3028,6 +3028,7 @@
   "tags": ["カバー(ソロ)"]
 } 
 ]
+
 
 
 
