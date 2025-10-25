@@ -1,13 +1,4 @@
-[ {
-  "title": "【殺陣】バクチ・ダンサー/DOES【長尾景/にじさんじ】",
-  "date": " 2025-10-23",
-  "songs": [
-    { "title": "バクチ・ダンサー", "artist": "DOES" }
-  ],
-  "youtubeId": "7U7dTgyH30s",
-  "tags": ["カバー(ソロ)"]
-},
-  {
+[{
   "title": "【殺陣】Ｗ●ＲＫ【長尾景/にじさんじ】",
   "date": " 2025-10-12",
   "songs": [
@@ -2276,6 +2267,16 @@
   "youtubeId": "rboYtZL6DVk",
   "tags": ["カバー(ソロ)"]
 },
+ {
+  "title": "寄り酔い【長尾景/にじさんじ】【歌ってみた】",
+  "date": " 2025-10-24",
+  "songs": [
+    { "title": "寄り酔い", "artist": "和ぬか" }
+  ],
+  "youtubeId": "oP3mLrM8CQ8",
+  "tags": ["カバー(ソロ)"]
+},
+  
 {
   "title": "【歌ってみた】おもかげ covered by #VΔLZ",
   "date": "2025-10-11",
@@ -3026,8 +3027,18 @@
   ],
   "youtubeId": "mVw5QbfOdws",
   "tags": ["カバー(ソロ)"]
-} 
+},
+   {
+  "title": "【殺陣】バクチ・ダンサー/DOES【長尾景/にじさんじ】",
+  "date": " 2025-10-23",
+  "songs": [
+    { "title": "バクチ・ダンサー", "artist": "DOES" }
+  ],
+  "youtubeId": "7U7dTgyH30s",
+  "tags": ["カバー(ソロ)"]
+}
 ]
+
 
 
 
