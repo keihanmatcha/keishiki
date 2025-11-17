@@ -1401,12 +1401,21 @@
     "youtubeId": "WFIIoxTeegU",
     "tags": ["オリジナル(ユニット)"]
   },
-
+ {
+    "title": "【歌枠】１０月１０日の都々の日に１０人呼んでデュエット祭り！！【立伝都々/にじさんじ】",
+    "date": "2025-10-10",
+    "songs": [
+      { "title": "DADDY!DADDY!DO!", "artist": "鈴木雅之", "start":4899  },
+      { "title": "Preserved Roses", "artist": "T.M.Revolution×水樹奈々", "start":5323  }
+    ],
+    "youtubeId": "JRmnbHTx8S8",
+    "tags": ["カバー(ユニット)"]
+  },
   {
     "title": "【#える3Dお披露目ライブ】ゲスト多数✨歌ってはしゃぐ3Dライブ！【にじさんじ/える】",
     "date": "2025-05-25",
     "songs": [
-      { "title": " 命のユースティティア", "artist": "Neru", "start":1092  }
+      { "title": "命のユースティティア", "artist": "Neru", "start":1092  }
     ],
     "youtubeId": "RjXk9SAAFE",
     "tags": ["カバー(ユニット)"]
@@ -1415,8 +1424,8 @@
     "title": "【3D】 Concept Live『Chic！』【＃森中花咲3Dコンセプトライブ】【ジョー力一/森中花咲/白雪巴】",
     "date": "2022-03-19",
     "songs": [
-      { "title": " 月光", "artist": "キタニタツヤ×はるまきごはん", "start":1331 },
-      { "title": " フェレス", "artist": "栗山夕璃/蜂屋ななし with #GABULI - Hatsune Miku＆MEIKO", "start":4738 }
+      { "title": "月光", "artist": "キタニタツヤ×はるまきごはん", "start":1331 },
+      { "title": "フェレス", "artist": "栗山夕璃/蜂屋ななし with #GABULI - Hatsune Miku＆MEIKO", "start":4738 }
     ],
     "youtubeId": "CBI-Ox7r0Jw",
     "tags": ["カバー(ユニット)"]
@@ -3087,6 +3096,7 @@
   "tags": ["カバー(ユニット)"]
 }
 ]
+
 
 
 
