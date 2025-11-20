@@ -1344,6 +1344,16 @@
     "youtubeId": "EBytyBktfD0",
     "tags": ["カバー(ユニット)"]
   },
+  {
+    "title": "【凸待ちカラオケ】OFFLINE KARAOKE FOR MY BIRTHDAY!! 🎤✨ 誕生日なので、一緒に歌ってくれる人を呼んできましたー！【NIJISANJI EN｜Petra Gurin】",
+    "date": "2023-12-06",
+    "songs": [
+      { "title": "KICK BACK", "artist": "米津玄師", "start":8374 },
+      { "title": "ハレハレヤ", "artist": "羽生まゐご", "start":9126 },
+    ],
+    "youtubeId": "EBytyBktfD0",
+    "tags": ["カバー(ユニット)"]
+  },
  {
     "title": "Hurrah!! (Shu Yamino 3D Debut Version)",
     "date": "2024-07-20",
@@ -3096,6 +3106,7 @@
   "tags": ["カバー(ユニット)"]
 }
 ]
+
 
 
 
